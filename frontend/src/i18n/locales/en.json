@@ -214,9 +214,7 @@
     "summary": "Summary",
     "reordering": "Reordering...",
     "reorder": "Reorder",
-    "nothingToReorder": "No products available to reorder"
-  },
-  "orders": {
+    "nothingToReorder": "No products available to reorder",
     "addedToCart": "Order #{{id}} added to cart",
     "invoiceFor": "Invoice order #{{id}}",
     "summaryFor": "Order summary #{{id}}"
@@ -260,6 +258,39 @@
     "orderSummary": "Order Summary",
     "summary": "Summary",
     "featuresUnavailable": "Features not available"
+  },
+  "admin": {
+    "navLink": "Customer management",
+    "tag": "Super Admin",
+    "title": "Customer management",
+    "subtitle": "All registered users and their orders.",
+    "statUsers": "Total users",
+    "statOrders": "Total orders",
+    "statRevenue": "Total revenue",
+    "searchPlaceholder": "Search by name or email...",
+    "loading": "Loading customers...",
+    "loadError": "Failed to load customers",
+    "noResults": "No customers found.",
+    "orders": "orders",
+    "totalSpent": "Total spent",
+    "registered": "Registered",
+    "loadingOrders": "Loading orders...",
+    "noOrders": "No orders for this user.",
+    "noItems": "No details available.",
+    "shippingAddress": "Shipping address",
+    "notes": "Notes",
+    "product": "Product",
+    "productId": "Product",
+    "qty": "Qty",
+    "unitPrice": "Unit price",
+    "lineTotal": "Line total",
+    "status": {
+      "pending": "Pending",
+      "processing": "Processing",
+      "shipped": "Shipped",
+      "delivered": "Delivered",
+      "cancelled": "Cancelled"
+    }
   },
   "errors": {
     "loadPaymentMethods": "Failed to load payment methods",

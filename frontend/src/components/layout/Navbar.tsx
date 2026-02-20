@@ -137,6 +137,19 @@ export function Navbar() {
                         {t('orders.title')}
                       </Link>
 
+                      {user?.role === 'admin' && (
+                        <>
+                          <div className="my-2 h-px bg-white/10" />
+                          <Link
+                            to="/admin"
+                            onClick={() => setUserMenuOpen(false)}
+                            className="block w-full text-left text-sm text-[#e8ff00] hover:text-white bg-[#e8ff00]/5 border border-[#e8ff00]/20 rounded-xl px-3 py-2 transition-colors"
+                          >
+                            ⚙ {t('admin.navLink')}
+                          </Link>
+                        </>
+                      )}
+
                       <button
                         onClick={() => {
                           setUserMenuOpen(false)
@@ -202,6 +215,9 @@ export function Navbar() {
                 <>
                   <Link to="/profile" className="text-gray-300">{t('profile.header')}</Link>
                   <Link to="/orders-summary" className="text-gray-300">{t('orders.title')}</Link>
+                  {user?.role === 'admin' && (
+                    <Link to="/admin" className="text-[#e8ff00] font-semibold">⚙ {t('admin.navLink')}</Link>
+                  )}
                   <button onClick={logout} className="text-left text-red-400 cursor-pointer">
                     {t('nav.logout')}
                   </button>

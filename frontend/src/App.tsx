@@ -10,6 +10,7 @@ import ProfilePage from './pages/ProfilePage'
 import OrdersSummaryPage from './pages/OrdersSummaryPage.tsx'
 import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
+import AdminPage from './pages/AdminPage'
 import './i18n'
 
 const queryClient = new QueryClient()
@@ -39,6 +40,7 @@ export default function App() {
             <Route path="/orders-summary" element={<OrdersSummaryPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
+            <Route path="/admin" element={<AdminPage />} />
           </Route>
         </Routes>
       </BrowserRouter>
