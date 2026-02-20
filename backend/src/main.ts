@@ -56,8 +56,20 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER));
 
+  const config = app.get(ConfigService);
+  const frontendUrls = config.get<string>('FRONTEND_URL', 'http://localhost:5173');
+  const allowedOrigins = frontendUrls.split(',').map(url => url.trim());
+
   app.enableCors({
-    origin: 'http://localhost:5173',
+    origin: (origin, callback) => {
+      // Consenti richieste senza origin (es. Postman, curl)
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error('CORS not allowed'));
+      }
+    },
     credentials: true,
   });
 
