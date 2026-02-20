@@ -34,16 +34,21 @@ async function syncLogFilesToDb(app: INestApplication): Promise<void> {
     const stat = await fs.stat(filePath);
     const level: 'app' | 'error' = fileName.includes('error') ? 'error' : 'app';
 
-    await repo.upsert(
-      {
-        fileName,
-        filePath,
-        level,
-        sizeBytes: Number(stat.size),
-        lastModifiedAt: stat.mtime,
-      },
-      ['filePath'],
-    );
+    try {
+      await repo.upsert(
+        {
+          fileName,
+          filePath,
+          level,
+          sizeBytes: Number(stat.size),
+          lastModifiedAt: stat.mtime,
+        },
+        ['filePath'],
+      );
+    } catch (err) {
+      // Ignora errori se la tabella non esiste ancora (primo avvio con migrations pending)
+      console.warn('Could not sync log file to DB:', fileName, err.message);
+    }
   }
 }
 
