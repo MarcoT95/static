@@ -64,7 +64,7 @@
       "4": {
         "label": "04 — Versatilità",
         "title": "Oltre 40 esercizi\npossibili.",
-        "text": "Pull-up, chin-up, muscle-up, L-sit, skin the cat: una sola barra per tutto il tuo allenamento. Compatibile con elastici di assistenza, parallette e anelli grazie ai ganci laterali integrati in acciaio inox.",
+        "text": "Pull-up, chin-up, muscle-up, L-sit, skin the cat: una sola barra per tutto il tuo allenamento. Compatibile con elastici di assistenza, parallele e anelli grazie ai ganci laterali integrati in acciaio inox.",
         "detail": "Larghezza presa: standard 81 cm · wide 91 cm"
       },
       "5": {
@@ -101,16 +101,16 @@
     }
   },
   "shop": {
-    "seriesTitle": "Linea Parallette",
+    "seriesTitle": "Linea parallele",
     "titleLine1": "Scegli la",
     "titleHighlight": "tua misura.",
     "subtitle": "Tre taglie, un'unica qualità. Ogni paralletta Static è costruita per durare una vita.",
     "compare": "Confronto tecnico"
   },
   "products": {
-    "parallette-s": { "description": "Versione compatta pensata per spazi ridotti. Altezza 15 cm, larghezza 30 cm. Ideale per L-sit, planche progression e dips da pavimento. Struttura in acciaio con piedini antiscivolo." },
-    "parallette-m": { "description": "La misura intermedia, molto versatile. Altezza 15 cm, larghezza 40 cm. Perfetta per handstand push-up, pike push-up e pseudo planche. Impugnature in alluminio anodizzato per presa sicura." },
-    "parallette-l": { "description": "Versione professionale per utilizzo intenso. Altezza 15 cm, larghezza 50 cm. Adatta a dip profondi, transizioni e movimenti esplosivi. Costruzione full-steel con bulloneria inclusa." }
+    "parallele-s": { "description": "Versione compatta pensata per spazi ridotti. Altezza 15 cm, larghezza 30 cm. Ideale per L-sit, planche progression e dips da pavimento. Struttura in acciaio con piedini antiscivolo." },
+    "parallele-m": { "description": "La misura intermedia, molto versatile. Altezza 15 cm, larghezza 40 cm. Perfetta per handstand push-up, pike push-up e pseudo planche. Impugnature in alluminio anodizzato per presa sicura." },
+    "parallele-l": { "description": "Versione professionale per utilizzo intenso. Altezza 15 cm, larghezza 50 cm. Adatta a dip profondi, transizioni e movimenti esplosivi. Costruzione full-steel con bulloneria inclusa." }
   },
   "common": {
     "download": "Download",
@@ -124,7 +124,9 @@
     "checkout": "Procedi al pagamento",
     "continueShopping": "Continua lo shopping",
     "remove": "Rimuovi",
-    "quantity": "Quantità"
+    "quantity": "Quantità",
+    "unitPrice": "Prezzo unitario",
+    "lineTotal": "Totale riga"
   },
   "auth": {
     "login": "Accedi",
@@ -191,11 +193,7 @@
     "paypalEmail": "Email PayPal",
     "sameAsShipping": "Uguale alla spedizione"
   },
-  "cart": {
-    "unitPrice": "Prezzo unitario",
-    "lineTotal": "Totale riga",
-    "quantity": "Quantità"
-  },
+  
   "bank": {
     "reasonTemplate": "Ordine STATIC - {{name}}"
   },

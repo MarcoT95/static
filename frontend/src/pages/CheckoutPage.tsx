@@ -9,21 +9,21 @@ import type { SavedPaymentMethod, CartItem, ProductSpecs } from '../types'
 import { useTranslation } from 'react-i18next'
 
 const CHECKOUT_SPECS_FALLBACK: Record<string, { height: string; width: string; weight: string; load: string; material: string }> = {
-  'parallette-s': {
+  'parallele-s': {
     height: '30 cm',
     width: '42 cm',
     weight: '1.8 kg',
     load: '200 kg',
     material: 'Acciaio C45',
   },
-  'parallette-m': {
+  'parallele-m': {
     height: '40 cm',
     width: '50 cm',
     weight: '2.6 kg',
     load: '250 kg',
     material: 'Acciaio C45 + Alluminio',
   },
-  'parallette-l': {
+  'parallele-l': {
     height: '50 cm',
     width: '58 cm',
     weight: '4.2 kg',

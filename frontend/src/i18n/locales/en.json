@@ -64,7 +64,7 @@
       "4": {
         "label": "04 — Versatility",
         "title": "Over 40 exercises\npossible.",
-        "text": "Pull-up, chin-up, muscle-up, L-sit, skin the cat: one bar for your whole workout. Compatible with assistance bands, parallettes and rings thanks to integrated stainless steel hooks.",
+        "text": "Pull-up, chin-up, muscle-up, L-sit, skin the cat: one bar for your whole workout. Compatible with assistance bands, paralleles and rings thanks to integrated stainless steel hooks.",
         "detail": "Grip width: standard 81 cm · wide 91 cm"
       },
       "5": {
@@ -101,16 +101,16 @@
     }
   },
   "shop": {
-    "seriesTitle": "Parallette series",
+    "seriesTitle": "parallele series",
     "titleLine1": "Choose your",
     "titleHighlight": "size.",
-    "subtitle": "Three sizes, one quality. Each Static parallette is built to last a lifetime.",
+    "subtitle": "Three sizes, one quality. Each Static parallele is built to last a lifetime.",
     "compare": "Technical comparison"
   },
   "products": {
-    "parallette-s": { "description": "Compact version for small spaces. Height 15 cm, width 30 cm. Ideal for L-sit, planche progressions and floor dips. Steel frame with non-slip feet." },
-    "parallette-m": { "description": "Intermediate size, highly versatile. Height 15 cm, width 40 cm. Perfect for handstand push-ups, pike push-ups and pseudo planche. Anodized aluminium handles for secure grip." },
-    "parallette-l": { "description": "Professional version for heavy use. Height 15 cm, width 50 cm. Suited for deep dips, transitions and explosive movements. Full-steel construction with included hardware." }
+    "parallele-s": { "description": "Compact version for small spaces. Height 15 cm, width 30 cm. Ideal for L-sit, planche progressions and floor dips. Steel frame with non-slip feet." },
+    "parallele-m": { "description": "Intermediate size, highly versatile. Height 15 cm, width 40 cm. Perfect for handstand push-ups, pike push-ups and pseudo planche. Anodized aluminium handles for secure grip." },
+    "parallele-l": { "description": "Professional version for heavy use. Height 15 cm, width 50 cm. Suited for deep dips, transitions and explosive movements. Full-steel construction with included hardware." }
   },
   "common": {
     "download": "Download",
@@ -124,7 +124,9 @@
     "checkout": "Proceed to checkout",
     "continueShopping": "Continue shopping",
     "remove": "Remove",
-    "quantity": "Quantity"
+    "quantity": "Quantity",
+    "unitPrice": "Unit price",
+    "lineTotal": "Line total"
   },
   "auth": {
     "login": "Login",
@@ -191,10 +193,7 @@
     "paypalEmail": "PayPal email",
     "sameAsShipping": "Same as shipping"
   },
-  "cart": {
-    "unitPrice": "Unit price",
-    "lineTotal": "Line total"
-  },
+  
   "bank": {
     "reasonTemplate": "Order STATIC - {{name}}"
   },
