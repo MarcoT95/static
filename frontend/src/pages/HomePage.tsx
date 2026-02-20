@@ -16,50 +16,50 @@ const PRODUCT_STORY = [
   {
     id: 1,
     side: 'left' as const,
-    label: '01 — Materiali',
-    title: 'Acciaio al carbonio.\nForgiato per durare.',
-    text: 'Ogni barra Pull-Up Static nasce da acciaio al carbonio trattato a caldo con rivestimento in polvere anti-corrosione a 180°C. Una superficie che resiste al sudore, all\'umidità e all\'usura quotidiana per anni.',
-    detail: 'Spessore 32 mm · Peso 4,2 kg · Portata certificata 300 kg',
+    label: 'home.story.1.label',
+    title: 'home.story.1.title',
+    text: 'home.story.1.text',
+    detail: 'home.story.1.detail',
   },
   {
     id: 2,
     side: 'right' as const,
-    label: '02 — Installazione',
-    title: 'Montaggio in\n4 minuti netti.',
-    text: 'La struttura modulare si adatta a qualsiasi telaio porta da 60 a 100 cm, senza forare il muro. Sistema di tensione a vite con piastre antiscivolo in gomma vulcanizzata che proteggono il rivestimento della porta.',
-    detail: 'Kit incluso: 4 bulloni M10 · Livella · Guida illustrata',
+    label: 'home.story.2.label',
+    title: 'home.story.2.title',
+    text: 'home.story.2.text',
+    detail: 'home.story.2.detail',
   },
   {
     id: 3,
     side: 'left' as const,
-    label: '03 — Grip System',
-    title: 'Il grip che\ncercavi.',
-    text: 'Knurling a doppio diamante nella zona centrale per massima aderenza anche a mani sudate. Le estremità in alluminio anodizzato silver permettono di scorrere fluidamente durante kipping e movimenti dinamici avanzati.',
-    detail: 'Zona knurling 28 cm · Estremità lisce 12 cm per lato',
+    label: 'home.story.3.label',
+    title: 'home.story.3.title',
+    text: 'home.story.3.text',
+    detail: 'home.story.3.detail',
   },
   {
     id: 4,
     side: 'right' as const,
-    label: '04 — Versatilità',
-    title: 'Oltre 40 esercizi\npossibili.',
-    text: 'Pull-up, chin-up, muscle-up, L-sit, skin the cat: una sola barra per tutto il tuo allenamento. Compatibile con elastici di assistenza, parallette e anelli grazie ai ganci laterali integrati in acciaio inox.',
-    detail: 'Larghezza presa: standard 81 cm · wide 91 cm',
+    label: 'home.story.4.label',
+    title: 'home.story.4.title',
+    text: 'home.story.4.text',
+    detail: 'home.story.4.detail',
   },
   {
     id: 5,
     side: 'left' as const,
-    label: '05 — Certificazioni',
-    title: 'Certificata CE.\nGaranzia 5 anni.',
-    text: 'Produzione interamente europea con controllo qualità su ogni singolo pezzo. Testata secondo la norma EN 957 per attrezzature fitness domestiche. Spedizione tracciata in 24/48h con imballo rinforzato inclusa in tutta Italia.',
-    detail: 'EN 957-1 · ISO 9001 · Made in EU',
+    label: 'home.story.5.label',
+    title: 'home.story.5.title',
+    text: 'home.story.5.text',
+    detail: 'home.story.5.detail',
   },
   {
     id: 6,
     side: 'right' as const,
-    label: '06 — Estetica',
-    title: 'Design che si\nvede e si sente.',
-    text: 'Finitura matte black con dettagli giallo Static. La barra non è solo un attrezzo, è un oggetto di design che valorizza il tuo spazio. Disponibile anche in versione all-black per chi preferisce un look total dark.',
-    detail: 'Colori: Matte Black / All Black · Packaging premium riciclabile',
+    label: 'home.story.6.label',
+    title: 'home.story.6.title',
+    text: 'home.story.6.text',
+    detail: 'home.story.6.detail',
   },
 ]
 
@@ -178,6 +178,7 @@ function ProductStorySection() {
 }
 
 function IntroSlide({ progress, total }: { progress: ReturnType<typeof useSpring>; total: number }) {
+  const { t } = useTranslation()
   const end   = 1 / total
   const mid   = end / 2
   const range: [number, number, number, number] = [0, mid - 0.03, mid + 0.03, end]
@@ -198,7 +199,7 @@ function IntroSlide({ progress, total }: { progress: ReturnType<typeof useSpring
           transition={{ delay: 0.3, duration: 0.8 }}
           className="text-[#e8ff00] text-sm font-bold uppercase tracking-[0.3em] mb-5"
         >
-          Il Prodotto
+          {t('home.intro.preTitle')}
         </motion.p>
         <motion.h2
           initial={{ opacity: 0, y: 30 }}
@@ -206,7 +207,12 @@ function IntroSlide({ progress, total }: { progress: ReturnType<typeof useSpring
           transition={{ delay: 0.5, duration: 0.9 }}
           className="text-5xl md:text-7xl font-black text-white leading-[1.05] mb-6"
         >
-          Ogni dettaglio<br /><span className="text-[#e8ff00]">conta.</span>
+          {t('home.intro.title').split('\n').map((line, i, arr) => (
+            <span key={i}>
+              {i === arr.length - 1 ? <span className="text-[#e8ff00]">{line}</span> : line}
+              {i < arr.length - 1 ? <br /> : null}
+            </span>
+          ))}
         </motion.h2>
         <motion.p
           initial={{ opacity: 0 }}
@@ -214,7 +220,7 @@ function IntroSlide({ progress, total }: { progress: ReturnType<typeof useSpring
           transition={{ delay: 0.9, duration: 0.8 }}
           className="text-gray-400 text-lg max-w-md mx-auto"
         >
-          Scorri per scoprire cosa rende Static unico.
+          {t('home.intro.subtitle')}
         </motion.p>
         <motion.div
           animate={{ y: [0, 10, 0] }}
@@ -231,6 +237,7 @@ function IntroSlide({ progress, total }: { progress: ReturnType<typeof useSpring
 }
 
 function CtaSlide({ progress, total }: { progress: ReturnType<typeof useSpring>; total: number }) {
+  const { t } = useTranslation()
   const start = (total - 1) / total
   const mid   = (start + 1) / 2
   const range: [number, number, number, number] = [start, mid - 0.03, mid + 0.03, 1]
@@ -245,20 +252,25 @@ function CtaSlide({ progress, total }: { progress: ReturnType<typeof useSpring>;
       className="absolute inset-0 z-20 flex items-center justify-center text-center px-6"
     >
       <div>
-        <p className="text-[#e8ff00] text-sm font-bold uppercase tracking-[0.3em] mb-5">Static Store</p>
+        <p className="text-[#e8ff00] text-sm font-bold uppercase tracking-[0.3em] mb-5">{t('home.cta.storeLabel')}</p>
         <h2 className="text-5xl md:text-7xl font-black text-white leading-[1.05] mb-6">
-          Pronto a<br /><span className="text-[#e8ff00]">spingerti oltre?</span>
+          {t('home.cta.title').split('\n').map((line, i, arr) => (
+            <span key={i}>
+              {i === arr.length - 1 ? <span className="text-[#e8ff00]">{line}</span> : line}
+              {i < arr.length - 1 ? <br /> : null}
+            </span>
+          ))}
         </h2>
         <p className="text-gray-300 text-lg max-w-md mx-auto mb-10">
-          Scopri tutta la linea Static. Attrezzatura pensata per chi non si accontenta.
+          {t('home.cta.subtitle')}
         </p>
         <Link to="/shop">
-          <motion.span
+            <motion.span
             whileHover={{ scale: 1.06 }}
             whileTap={{ scale: 0.96 }}
             className="inline-block bg-[#e8ff00] text-black font-black px-10 py-5 rounded-full text-xl cursor-pointer"
           >
-            Shop ora →
+            {t('home.cta.button')}
           </motion.span>
         </Link>
       </div>
@@ -275,6 +287,7 @@ function StoryBlock({
   progress: ReturnType<typeof useSpring>
   range: [number, number, number, number]
 }) {
+  const { t } = useTranslation()
   const opacity = useTransform(progress, range, [0, 1, 1, 0])
   const x = useTransform(
     progress,
@@ -295,12 +308,12 @@ function StoryBlock({
       <div className={`max-w-xl ${isLeft ? 'mr-auto' : 'ml-auto'}`}>
         {/* Label */}
         <p className="text-[#e8ff00] text-xs font-bold uppercase tracking-[0.25em] mb-4">
-          {item.label}
+          {t(item.label)}
         </p>
 
         {/* Titolo con newline */}
         <h3 className="text-4xl md:text-5xl font-black text-white leading-[1.1] mb-5 whitespace-pre-line">
-          {item.title}
+          {t(item.title)}
         </h3>
 
         {/* Separatore */}
@@ -308,13 +321,13 @@ function StoryBlock({
 
         {/* Testo corpo */}
         <p className="text-gray-300 text-base md:text-lg leading-relaxed mb-4">
-          {item.text}
+          {t(item.text)}
         </p>
 
         {/* Dettaglio tecnico */}
         <div className="inline-flex items-center gap-2 bg-white/5 backdrop-blur-sm border border-white/10 rounded-full px-4 py-2">
           <span className="w-1.5 h-1.5 bg-[#e8ff00] rounded-full" />
-          <span className="text-gray-400 text-xs font-medium">{item.detail}</span>
+          <span className="text-gray-400 text-xs font-medium">{t(item.detail)}</span>
         </div>
       </div>
     </motion.div>
@@ -369,7 +382,7 @@ export default function HomePage() {
             className="inline-flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-2 text-sm text-gray-400 mb-8"
           >
             <span className="w-2 h-2 bg-[#e8ff00] rounded-full animate-pulse" />
-            Calisthenics Equipment
+            {t('home.tagline')}
           </motion.div>
 
           <motion.h1

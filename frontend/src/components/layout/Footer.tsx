@@ -14,7 +14,7 @@ export function Footer() {
               STATIC<span className="text-[#e8ff00]">.</span>
             </div>
             <p className="text-gray-500 text-sm max-w-xs leading-relaxed">
-              Attrezzatura premium per il calisthenics. Costruita per chi vuole andare oltre i propri limiti.
+              {t('footer.description')}
             </p>
           </div>
 

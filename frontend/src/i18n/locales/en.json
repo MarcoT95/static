@@ -16,11 +16,70 @@
     "cta": "Shop now",
     "cta2": "About us"
   },
+  "about": {
+    "title": "About us",
+    "subtitle": "Static is built for people who train seriously, with essential and durable gear, no compromises.",
+    "blocks": {
+      "vision": { "heading": "Vision", "text": "We build calisthenics products designed to last: minimal design, reliable materials, and real-world performance in every session." },
+      "quality": { "heading": "Quality", "text": "Each line is developed with practical testing and attention to detail, delivering stability, grip, and safety during training." },
+      "community": { "heading": "Community", "text": "Static is also a community: athletes, coaches, and enthusiasts sharing the same mindset, pushing limits every day." }
+    }
+  },
   "home": {
     "featured": "Featured products",
     "newArrivals": "New arrivals",
     "categories": "Categories",
     "viewAll": "View all"
+    ,"tagline": "Calisthenics Equipment",
+    "intro": {
+      "preTitle": "The Product",
+      "title": "Every detail\nmatters.",
+      "subtitle": "Scroll to discover what makes Static unique."
+    },
+    "cta": {
+      "storeLabel": "Static Store",
+      "title": "Ready to\npush further?",
+      "subtitle": "Discover the full Static line. Equipment made for those who won't settle.",
+      "button": "Shop now →"
+    },
+    "story": {
+      "1": {
+        "label": "01 — Materials",
+        "title": "Carbon steel.\nForged to last.",
+        "text": "Every Pull-Up Static bar is made from heat-treated carbon steel with a 180°C powder anti-corrosion coating. A surface that resists sweat, humidity and everyday wear for years.",
+        "detail": "Thickness 32 mm · Weight 4.2 kg · Rated load 300 kg"
+      },
+      "2": {
+        "label": "02 — Installation",
+        "title": "Mounting in\n4 minutes flat.",
+        "text": "The modular frame adapts to any door frame from 60 to 100 cm without drilling. Screw tension system with vulcanized rubber anti-slip plates that protect the door finish.",
+        "detail": "Kit included: 4 M10 bolts · Level · Illustrated guide"
+      },
+      "3": {
+        "label": "03 — Grip System",
+        "title": "The grip you\nwere after.",
+        "text": "Dual-diamond knurling in the central area for maximum traction even with sweaty hands. Anodized aluminium ends slide smoothly during kipping and advanced dynamic movements.",
+        "detail": "Knurling zone 28 cm · Smooth ends 12 cm per side"
+      },
+      "4": {
+        "label": "04 — Versatility",
+        "title": "Over 40 exercises\npossible.",
+        "text": "Pull-up, chin-up, muscle-up, L-sit, skin the cat: one bar for your whole workout. Compatible with assistance bands, parallettes and rings thanks to integrated stainless steel hooks.",
+        "detail": "Grip width: standard 81 cm · wide 91 cm"
+      },
+      "5": {
+        "label": "05 — Certifications",
+        "title": "CE certified.\n5 year warranty.",
+        "text": "Entirely European production with quality checks on every single piece. Tested according to EN 957 for domestic fitness equipment. Tracked shipping in 24/48h with reinforced packaging included in Italy.",
+        "detail": "EN 957-1 · ISO 9001 · Made in EU"
+      },
+      "6": {
+        "label": "06 — Aesthetics",
+        "title": "Design you\nsee and feel.",
+        "text": "Matte black finish with yellow Static details. The bar is not just equipment, it's a design object that enhances your space. Also available in all-black for a total dark look.",
+        "detail": "Colors: Matte Black / All Black · Premium recyclable packaging"
+      }
+    }
   },
   "product": {
     "addToCart": "Add to cart",
@@ -28,7 +87,35 @@
     "price": "Price",
     "description": "Description",
     "reviews": "Reviews",
-    "related": "Related products"
+    "related": "Related products",
+    "specs": {
+      "height": "Height",
+      "width": "Width",
+      "weight": "Weight",
+      "load": "Load",
+      "material": "Material",
+      "heightShort": "H",
+      "widthShort": "W",
+      "weightShort": "Weight",
+      "loadShort": "Load"
+    }
+  },
+  "shop": {
+    "seriesTitle": "Parallette series",
+    "titleLine1": "Choose your",
+    "titleHighlight": "size.",
+    "subtitle": "Three sizes, one quality. Each Static parallette is built to last a lifetime.",
+    "compare": "Technical comparison"
+  },
+  "products": {
+    "parallette-s": { "description": "Compact version for small spaces. Height 15 cm, width 30 cm. Ideal for L-sit, planche progressions and floor dips. Steel frame with non-slip feet." },
+    "parallette-m": { "description": "Intermediate size, highly versatile. Height 15 cm, width 40 cm. Perfect for handstand push-ups, pike push-ups and pseudo planche. Anodized aluminium handles for secure grip." },
+    "parallette-l": { "description": "Professional version for heavy use. Height 15 cm, width 50 cm. Suited for deep dips, transitions and explosive movements. Full-steel construction with included hardware." }
+  },
+  "common": {
+    "download": "Download",
+    "view": "View",
+    "copied": "Copied"
   },
   "cart": {
     "title": "Your cart",
@@ -53,10 +140,155 @@
     "loginSuccess": "Login successful!",
     "registerSuccess": "Registration complete!"
   },
+  "checkout": {
+    "smallHeader": "Checkout",
+    "title": "Complete your order",
+    "invoicePdfTitle": "Invoice PDF",
+    "orderSummaryHeading": "Order summary",
+    "step3": "Step 3 - Confirm payment",
+    "savedMethodsList": "Saved payment methods",
+    "default": "Default",
+    "saved": "Saved",
+    "remove": "Remove",
+    "insertNewMethod": "Insert new method",
+    "cardName": "Name on card",
+    "cardNumber": "Card number",
+    "cardExpiry": "Expiry (MM/YY)",
+    "cvv": "CVV",
+    "paypalInfo": "Sign in to PayPal: authentication happens on the provider.",
+    "goToPaypal": "Go to PayPal",
+    "bankInfo": "Bank transfer (read-only details)",
+    "copyIban": "Copy IBAN",
+    "copyReason": "Copy reason",
+    "savePaymentMethodForFuture": "Save this payment method to your account",
+    "saveMyData": "Save my data for future purchases",
+    "notes": "Order notes (optional)",
+    "notesPlaceholder": "Intercom, delivery time, etc.",
+    "orderSummarySmall": "Order summary",
+    "contacts": "Contacts",
+    "shipping": "Shipping",
+    "billing": "Billing",
+    "payment": "Payment",
+    "security": "Security",
+    "cvvProvided": "CVV provided",
+    "notesLabel": "Notes",
+    "editData": "Edit details",
+    "sendingOrder": "Sending order...",
+    "proceedToPayment": "Proceed to payment",
+    "goToOrderSummary": "Go to order summary",
+    "savingDraft": "Saving draft...",
+    "saveForLater": "Save for later",
+    "invoiceGenerated": "Invoice and order summary generated automatically.",
+    "summaryTitle": "Summary",
+    "summaryPdfReady": "Order summary PDF ready for download or viewing",
+    "backToShop": "Back to shop",
+    "orderConfirmed": "Order confirmed",
+    "orderId": "Order",
+    "orderSummaryPdfTitle": "Order summary PDF"
+  },
+  "checkout_extra": {
+    "billingPlaceholder": "Billing street, City",
+    "paypalEmail": "PayPal email",
+    "sameAsShipping": "Same as shipping"
+  },
+  "cart": {
+    "unitPrice": "Unit price",
+    "lineTotal": "Line total"
+  },
+  "bank": {
+    "reasonTemplate": "Order STATIC - {{name}}"
+  },
+  "orders": {
+    "header": "Orders",
+    "title": "Orders",
+    "loading": "Loading orders...",
+    "empty": "You don't have any orders yet.",
+    "goToShop": "Go to shop",
+    "toCompleteTitle": "Orders to complete",
+    "pendingInfo": "Order saved but not completed yet.",
+    "resume": "Resume order",
+    "myOrdersTitle": "My orders",
+    "noConfirmed": "No confirmed orders.",
+    "documents": "Documents",
+    "invoice": "Invoice",
+    "summary": "Summary",
+    "reordering": "Reordering...",
+    "reorder": "Reorder",
+    "nothingToReorder": "No products available to reorder"
+  },
+  "orders": {
+    "addedToCart": "Order #{{id}} added to cart",
+    "invoiceFor": "Invoice order #{{id}}",
+    "summaryFor": "Order summary #{{id}}"
+  },
+  "profile": {
+    "header": "User panel",
+    "title": "Your data",
+    "subtitle": "Manage personal data, addresses and payment methods.",
+    "personalDataHeading": "Personal details",
+    "addressesHeading": "Addresses",
+    "securityHeading": "Security",
+    "currentPassword": "Current password",
+    "newPassword": "New password",
+    "confirmNewPassword": "Confirm new password",
+    "updating": "Updating...",
+    "updatePassword": "Update password",
+    "saving": "Saving...",
+    "saveChanges": "Save changes"
+  },
   "footer": {
+    "description": "Premium calisthenics equipment. Built for those who want to go beyond their limits.",
     "rights": "All rights reserved",
     "privacy": "Privacy Policy",
     "terms": "Terms of Service",
     "contact": "Contact"
+  },
+  "payment": {
+    "card": "Card",
+    "bank": "Bank transfer"
+  },
+  "bank": {
+    "iban": "IBAN",
+    "holder": "Holder",
+    "reason": "Reason"
+  },
+  "pdf": {
+    "invoice": "Invoice",
+    "date": "Date",
+    "client": "Client",
+    "features": "Features",
+    "orderSummary": "Order Summary",
+    "summary": "Summary",
+    "featuresUnavailable": "Features not available"
+  },
+  "errors": {
+    "loadPaymentMethods": "Failed to load payment methods",
+    "cannotRestoreDraft": "Cannot restore this draft order",
+    "invalidPaypalEmail": "Please enter a valid PayPal email",
+    "copyFailed": "Unable to copy to clipboard",
+    "removePaymentMethod": "Failed to remove saved payment method",
+    "invalidEmail": "Please enter a valid email",
+    "invalidPhone": "Please enter a valid phone number",
+    "invalidShippingAddress": "Please enter a shipping address",
+    "invalidBillingAddress": "Please enter a billing address",
+    "selectOrProvidePaymentMethod": "Select a saved method or provide a new one",
+    "invalidCvv": "Please enter a valid CVV",
+    "cardNameRequired": "Please enter the name on the card",
+    "invalidCardNumber": "Invalid card number: use 16 digits in the format 1234 5678 9012 3456",
+    "invalidExpiry": "Invalid expiry (MM/YY)",
+    "outOfStockCart": "Product out of stock: update the cart to continue.",
+    "saveProfileOrMethod": "Failed saving profile or payment method",
+    "orderConfirmedDocsFailed": "Order confirmed, but saving documents failed",
+    "productsUnavailable": "Some products are no longer available. Update the cart and try again.",
+    "loadOrders": "Failed loading orders",
+    "documentUnavailable": "Document not available",
+    "reorderFailed": "Error during reorder"
+    ,
+    "loadProfile": "Failed loading profile",
+    "saveProfile": "Failed saving profile",
+    "passwordCurrentRequired": "Please enter your current password",
+    "passwordTooShort": "New password must be at least 6 characters",
+    "passwordsDontMatch": "New passwords do not match",
+    "changePasswordFailed": "Failed changing password (verify current password)"
   }
 }

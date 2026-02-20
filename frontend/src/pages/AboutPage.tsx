@@ -2,43 +2,16 @@ import { motion } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
 
 export default function AboutPage() {
-  const { i18n } = useTranslation()
-  const isItalian = i18n.language.startsWith('it')
+  const { t } = useTranslation()
 
-  const title = isItalian ? 'Chi siamo' : 'About us'
-  const subtitle = isItalian
-    ? 'Static nasce per chi vuole allenarsi seriamente, con attrezzatura essenziale, solida e senza compromessi.'
-    : 'Static is built for people who train seriously, with essential and durable gear, no compromises.'
+  const title = t('about.title')
+  const subtitle = t('about.subtitle')
 
-  const blocks = isItalian
-    ? [
-        {
-          heading: 'Visione',
-          text: 'Creiamo prodotti per il calisthenics pensati per durare nel tempo: design minimale, materiali affidabili e performance reali in ogni sessione.',
-        },
-        {
-          heading: 'Qualità',
-          text: 'Ogni linea viene sviluppata con test pratici e attenzione ai dettagli, per offrire stabilità, grip e sicurezza in allenamento.',
-        },
-        {
-          heading: 'Community',
-          text: 'Static è anche una community: atleti, coach e appassionati che condividono la stessa mentalità, superare i propri limiti ogni giorno.',
-        },
-      ]
-    : [
-        {
-          heading: 'Vision',
-          text: 'We build calisthenics products designed to last: minimal design, reliable materials, and real-world performance in every session.',
-        },
-        {
-          heading: 'Quality',
-          text: 'Each line is developed with practical testing and attention to detail, delivering stability, grip, and safety during training.',
-        },
-        {
-          heading: 'Community',
-          text: 'Static is also a community: athletes, coaches, and enthusiasts sharing the same mindset, pushing limits every day.',
-        },
-      ]
+  const blocks = [
+    { heading: t('about.blocks.vision.heading'), text: t('about.blocks.vision.text') },
+    { heading: t('about.blocks.quality.heading'), text: t('about.blocks.quality.text') },
+    { heading: t('about.blocks.community.heading'), text: t('about.blocks.community.text') },
+  ]
 
   return (
     <div className="min-h-screen pt-28 pb-24">

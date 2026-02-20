@@ -126,7 +126,7 @@ export function Navbar() {
                         onClick={() => setUserMenuOpen(false)}
                         className="block w-full text-left text-sm text-white hover:text-[#e8ff00] bg-white/5 border border-white/10 rounded-xl px-3 py-2 transition-colors"
                       >
-                        Pannello utente
+                        {t('profile.header')}
                       </Link>
 
                       <Link
@@ -134,7 +134,7 @@ export function Navbar() {
                         onClick={() => setUserMenuOpen(false)}
                         className="mt-2 block w-full text-left text-sm text-white hover:text-[#e8ff00] bg-white/5 border border-white/10 rounded-xl px-3 py-2 transition-colors"
                       >
-                        Riepilogo ordini
+                        {t('orders.title')}
                       </Link>
 
                       <button
@@ -200,8 +200,8 @@ export function Navbar() {
             <div className="border-t border-white/10 pt-4 flex flex-col gap-3">
               {isAuthenticated() ? (
                 <>
-                  <Link to="/profile" className="text-gray-300">Pannello utente</Link>
-                  <Link to="/orders-summary" className="text-gray-300">Riepilogo ordini</Link>
+                  <Link to="/profile" className="text-gray-300">{t('profile.header')}</Link>
+                  <Link to="/orders-summary" className="text-gray-300">{t('orders.title')}</Link>
                   <button onClick={logout} className="text-left text-red-400 cursor-pointer">
                     {t('nav.logout')}
                   </button>

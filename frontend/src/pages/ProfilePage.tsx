@@ -3,8 +3,10 @@ import { motion } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
 import api from '../lib/axios'
 import { useAuthStore } from '../store/authStore'
+import { useTranslation } from 'react-i18next'
 
 export default function ProfilePage() {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const { isAuthenticated, updateUser } = useAuthStore()
 
@@ -44,7 +46,7 @@ export default function ProfilePage() {
         setAddress(me.address ?? '')
         setBillingAddress(me.billingAddress ?? '')
       } catch {
-        setError('Errore nel caricamento del profilo')
+          setError(t('errors.loadProfile'))
       } finally {
         setLoading(false)
       }
@@ -55,7 +57,7 @@ export default function ProfilePage() {
 
   const saveProfile = async () => {
     if (!email.trim() || !/^\S+@\S+\.\S+$/.test(email)) {
-      setError('Inserisci una email valida')
+      setError(t('errors.invalidEmail'))
       return
     }
 
@@ -77,7 +79,7 @@ export default function ProfilePage() {
       updateUser(res.data)
       setMessage('Profilo aggiornato con successo')
     } catch {
-      setError('Errore nel salvataggio del profilo')
+      setError(t('errors.saveProfile'))
     } finally {
       setSaving(false)
     }
@@ -85,15 +87,15 @@ export default function ProfilePage() {
 
   const savePassword = async () => {
     if (!currentPassword) {
-      setError('Inserisci la password attuale')
+      setError(t('errors.passwordCurrentRequired'))
       return
     }
     if (!newPassword || newPassword.length < 6) {
-      setError('La nuova password deve avere almeno 6 caratteri')
+      setError(t('errors.passwordTooShort'))
       return
     }
     if (newPassword !== confirmNewPassword) {
-      setError('Le nuove password non coincidono')
+      setError(t('errors.passwordsDontMatch'))
       return
     }
 
@@ -110,7 +112,7 @@ export default function ProfilePage() {
       setConfirmNewPassword('')
       setMessage('Password aggiornata con successo')
     } catch {
-      setError('Errore nel cambio password (verifica la password attuale)')
+      setError(t('errors.changePasswordFailed'))
     } finally {
       setSavingPassword(false)
     }
@@ -128,21 +130,21 @@ export default function ProfilePage() {
     <div className="min-h-screen pt-28 pb-24 px-6">
       <div className="max-w-5xl mx-auto">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-10">
-          <p className="text-[#e8ff00] text-sm font-bold uppercase tracking-[0.25em] mb-3">Pannello utente</p>
-          <h1 className="text-5xl md:text-6xl font-black text-white leading-none">I tuoi dati</h1>
-          <p className="text-gray-400 mt-4">Gestisci dati anagrafici, indirizzi e metodi di pagamento.</p>
+          <p className="text-[#e8ff00] text-sm font-bold uppercase tracking-[0.25em] mb-3">{t('profile.header')}</p>
+          <h1 className="text-5xl md:text-6xl font-black text-white leading-none">{t('profile.title')}</h1>
+          <p className="text-gray-400 mt-4">{t('profile.subtitle')}</p>
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <div className="bg-[#111] border border-white/10 rounded-2xl p-6 space-y-4">
-            <h2 className="text-white font-bold text-xl">Dati anagrafici</h2>
+            <h2 className="text-white font-bold text-xl">{t('profile.personalDataHeading')}</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="text-sm text-gray-400 mb-2 block">Nome</label>
+                <label className="text-sm text-gray-400 mb-2 block">{t('auth.firstName')}</label>
                 <input value={firstName} onChange={(e) => setFirstName(e.target.value)} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white" />
               </div>
               <div>
-                <label className="text-sm text-gray-400 mb-2 block">Cognome</label>
+                <label className="text-sm text-gray-400 mb-2 block">{t('auth.lastName')}</label>
                 <input value={lastName} onChange={(e) => setLastName(e.target.value)} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white" />
               </div>
             </div>
@@ -157,22 +159,22 @@ export default function ProfilePage() {
           </div>
 
           <div className="bg-[#111] border border-white/10 rounded-2xl p-6 space-y-4">
-            <h2 className="text-white font-bold text-xl">Indirizzi</h2>
+            <h2 className="text-white font-bold text-xl">{t('profile.addressesHeading')}</h2>
             <div>
-              <label className="text-sm text-gray-400 mb-2 block">Indirizzo</label>
+              <label className="text-sm text-gray-400 mb-2 block">{t('checkout.shippingAddress')}</label>
               <input value={address} onChange={(e) => setAddress(e.target.value)} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white" />
             </div>
             <div>
-              <label className="text-sm text-gray-400 mb-2 block">Indirizzo fatturazione</label>
+              <label className="text-sm text-gray-400 mb-2 block">{t('checkout.billingAddress')}</label>
               <input value={billingAddress} onChange={(e) => setBillingAddress(e.target.value)} className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white" />
             </div>
           </div>
         </div>
 
         <div className="bg-[#111] border border-white/10 rounded-2xl p-6 mt-6 space-y-4">
-          <h2 className="text-white font-bold text-xl">Sicurezza</h2>
+          <h2 className="text-white font-bold text-xl">{t('profile.securityHeading')}</h2>
           <div>
-            <label className="text-sm text-gray-400 mb-2 block">Password attuale</label>
+            <label className="text-sm text-gray-400 mb-2 block">{t('profile.currentPassword')}</label>
             <input
               type="password"
               value={currentPassword}
@@ -182,7 +184,7 @@ export default function ProfilePage() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="text-sm text-gray-400 mb-2 block">Nuova password</label>
+              <label className="text-sm text-gray-400 mb-2 block">{t('profile.newPassword')}</label>
               <input
                 type="password"
                 value={newPassword}
@@ -191,7 +193,7 @@ export default function ProfilePage() {
               />
             </div>
             <div>
-              <label className="text-sm text-gray-400 mb-2 block">Conferma nuova password</label>
+              <label className="text-sm text-gray-400 mb-2 block">{t('profile.confirmNewPassword')}</label>
               <input
                 type="password"
                 value={confirmNewPassword}
@@ -208,7 +210,7 @@ export default function ProfilePage() {
             disabled={savingPassword}
             className="bg-white/10 text-white font-bold py-3 px-6 rounded-xl disabled:opacity-60 cursor-pointer"
           >
-            {savingPassword ? 'Aggiornamento...' : 'Aggiorna password'}
+            {savingPassword ? t('profile.updating') : t('profile.updatePassword')}
           </motion.button>
         </div>
 
@@ -222,7 +224,7 @@ export default function ProfilePage() {
           disabled={saving}
           className="mt-6 bg-[#e8ff00] text-black font-black py-4 px-8 rounded-xl text-lg disabled:opacity-60 cursor-pointer"
         >
-          {saving ? 'Salvataggio...' : 'Salva modifiche'}
+          {saving ? t('profile.saving') : t('profile.saveChanges')}
         </motion.button>
       </div>
     </div>

@@ -11,16 +11,75 @@
   },
   "hero": {
     "title": "Allenati.",
-     "title2": "Supera i tuoi limiti",
+    "title2": "Supera i tuoi limiti",
     "subtitle": "Attrezzatura premium per il calisthenics. Costruita per chi non si ferma mai.",
     "cta": "Scopri i prodotti",
     "cta2": "Chi siamo"
+  },
+  "about": {
+    "title": "Chi siamo",
+    "subtitle": "Static nasce per chi vuole allenarsi seriamente, con attrezzatura essenziale, solida e senza compromessi.",
+    "blocks": {
+      "vision": { "heading": "Visione", "text": "Creiamo prodotti per il calisthenics pensati per durare nel tempo: design minimale, materiali affidabili e performance reali in ogni sessione." },
+      "quality": { "heading": "Qualità", "text": "Ogni linea viene sviluppata con test pratici e attenzione ai dettagli, per offrire stabilità, grip e sicurezza in allenamento." },
+      "community": { "heading": "Community", "text": "Static è anche una community: atleti, coach e appassionati che condividono la stessa mentalità, superare i propri limiti ogni giorno." }
+    }
   },
   "home": {
     "featured": "Prodotti in evidenza",
     "newArrivals": "Nuovi arrivi",
     "categories": "Categorie",
     "viewAll": "Vedi tutti"
+    ,"tagline": "Calisthenics Equipment",
+    "intro": {
+      "preTitle": "Il Prodotto",
+      "title": "Ogni dettaglio\nconta.",
+      "subtitle": "Scorri per scoprire cosa rende Static unico."
+    },
+    "cta": {
+      "storeLabel": "Static Store",
+      "title": "Pronto a\nspingerti oltre?",
+      "subtitle": "Scopri tutta la linea Static. Attrezzatura pensata per chi non si accontenta.",
+      "button": "Acquista ora →"
+    },
+    "story": {
+      "1": {
+        "label": "01 — Materiali",
+        "title": "Acciaio al carbonio.\nForgiato per durare.",
+        "text": "Ogni barra Pull-Up Static nasce da acciaio al carbonio trattato a caldo con rivestimento in polvere anti-corrosione a 180°C. Una superficie che resiste al sudore, all'umidità e all'usura quotidiana per anni.",
+        "detail": "Spessore 32 mm · Peso 4,2 kg · Portata certificata 300 kg"
+      },
+      "2": {
+        "label": "02 — Installazione",
+        "title": "Montaggio in\n4 minuti netti.",
+        "text": "La struttura modulare si adatta a qualsiasi telaio porta da 60 a 100 cm, senza forare il muro. Sistema di tensione a vite con piastre antiscivolo in gomma vulcanizzata che proteggono il rivestimento della porta.",
+        "detail": "Kit incluso: 4 bulloni M10 · Livella · Guida illustrata"
+      },
+      "3": {
+        "label": "03 — Grip System",
+        "title": "Il grip che\ncercavi.",
+        "text": "Knurling a doppio diamante nella zona centrale per massima aderenza anche a mani sudate. Le estremità in alluminio anodizzato silver permettono di scorrere fluidamente durante kipping e movimenti dinamici avanzati.",
+        "detail": "Zona knurling 28 cm · Estremità lisce 12 cm per lato"
+      },
+      "4": {
+        "label": "04 — Versatilità",
+        "title": "Oltre 40 esercizi\npossibili.",
+        "text": "Pull-up, chin-up, muscle-up, L-sit, skin the cat: una sola barra per tutto il tuo allenamento. Compatibile con elastici di assistenza, parallette e anelli grazie ai ganci laterali integrati in acciaio inox.",
+        "detail": "Larghezza presa: standard 81 cm · wide 91 cm"
+      },
+      "5": {
+        "label": "05 — Certificazioni",
+        "title": "Certificata CE.\nGaranzia 5 anni.",
+        "text": "Produzione interamente europea con controllo qualità su ogni singolo pezzo. Testata secondo la norma EN 957 per attrezzature fitness domestiche. Spedizione tracciata in 24/48h con imballo rinforzato inclusa in tutta Italia.",
+        "detail": "EN 957-1 · ISO 9001 · Made in EU"
+      },
+      "6": {
+        "label": "06 — Estetica",
+        "title": "Design che si\nvede e si sente.",
+        "text": "Finitura matte black con dettagli giallo Static. La barra non è solo un attrezzo, è un oggetto di design che valorizza il tuo spazio. Disponibile anche in versione all-black per chi preferisce un look total dark.",
+        "detail": "Colori: Matte Black / All Black · Packaging premium riciclabile"
+      }
+    }
   },
   "product": {
     "addToCart": "Aggiungi al carrello",
@@ -28,7 +87,35 @@
     "price": "Prezzo",
     "description": "Descrizione",
     "reviews": "Recensioni",
-    "related": "Prodotti correlati"
+    "related": "Prodotti correlati",
+    "specs": {
+      "height": "Altezza",
+      "width": "Larghezza",
+      "weight": "Peso",
+      "load": "Portata",
+      "material": "Materiale",
+      "heightShort": "H",
+      "widthShort": "W",
+      "weightShort": "Peso",
+      "loadShort": "Portata"
+    }
+  },
+  "shop": {
+    "seriesTitle": "Linea Parallette",
+    "titleLine1": "Scegli la",
+    "titleHighlight": "tua misura.",
+    "subtitle": "Tre taglie, un'unica qualità. Ogni paralletta Static è costruita per durare una vita.",
+    "compare": "Confronto tecnico"
+  },
+  "products": {
+    "parallette-s": { "description": "Versione compatta pensata per spazi ridotti. Altezza 15 cm, larghezza 30 cm. Ideale per L-sit, planche progression e dips da pavimento. Struttura in acciaio con piedini antiscivolo." },
+    "parallette-m": { "description": "La misura intermedia, molto versatile. Altezza 15 cm, larghezza 40 cm. Perfetta per handstand push-up, pike push-up e pseudo planche. Impugnature in alluminio anodizzato per presa sicura." },
+    "parallette-l": { "description": "Versione professionale per utilizzo intenso. Altezza 15 cm, larghezza 50 cm. Adatta a dip profondi, transizioni e movimenti esplosivi. Costruzione full-steel con bulloneria inclusa." }
+  },
+  "common": {
+    "download": "Download",
+    "view": "Visualizza",
+    "copied": "Copiato"
   },
   "cart": {
     "title": "Il tuo carrello",
@@ -53,10 +140,156 @@
     "loginSuccess": "Accesso effettuato!",
     "registerSuccess": "Registrazione completata!"
   },
+  "checkout": {
+    "smallHeader": "Checkout",
+    "title": "Completa il tuo ordine",
+    "invoicePdfTitle": "Fattura PDF",
+    "orderSummaryHeading": "Riepilogo ordine",
+    "step3": "Step 3 - Conferma pagamento",
+    "savedMethodsList": "Lista metodi salvati",
+    "default": "Predefinito",
+    "saved": "Salvato",
+    "remove": "Rimuovi",
+    "insertNewMethod": "Inserisci nuovo metodo",
+    "cardName": "Nome sulla carta",
+    "cardNumber": "Numero carta",
+    "cardExpiry": "Scadenza (MM/AA)",
+    "cvv": "CVV",
+    "paypalInfo": "Accedi a PayPal: l'autenticazione avviene direttamente sul provider.",
+    "goToPaypal": "Vai a PayPal",
+    "bankInfo": "Bonifico bancario (dati in sola lettura)",
+    "copyIban": "Copia IBAN",
+    "copyReason": "Copia causale",
+    "savePaymentMethodForFuture": "Salva questo metodo di pagamento nel tuo account",
+    "saveMyData": "Salva i miei dati per i prossimi acquisti",
+    "notes": "Note ordine (opzionale)",
+    "notesPlaceholder": "Citofono, orario consegna, ecc.",
+    "orderSummarySmall": "Riepilogo ordine",
+    "contacts": "Contatti",
+    "shipping": "Spedizione",
+    "billing": "Fatturazione",
+    "payment": "Pagamento",
+    "security": "Sicurezza",
+    "cvvProvided": "CVV inserito",
+    "notesLabel": "Note",
+    "editData": "Modifica dati",
+    "sendingOrder": "Invio ordine...",
+    "proceedToPayment": "Procedi al pagamento",
+    "goToOrderSummary": "Vai al riepilogo ordine",
+    "savingDraft": "Salvataggio in corso...",
+    "saveForLater": "Acquista in seguito",
+    "invoiceGenerated": "Fattura e riepilogo ordine generati automaticamente.",
+    "summaryTitle": "Riepilogo",
+    "summaryPdfReady": "Riepilogo ordine PDF pronto per download o visualizzazione",
+    "backToShop": "Torna allo shop",
+    "orderConfirmed": "Ordine confermato",
+    "orderId": "ID ordine",
+    "orderSummaryPdfTitle": "Riepilogo ordine PDF"
+  },
+  "checkout_extra": {
+    "billingPlaceholder": "Via Fatturazione 25, Milano",
+    "paypalEmail": "Email PayPal",
+    "sameAsShipping": "Uguale alla spedizione"
+  },
+  "cart": {
+    "unitPrice": "Prezzo unitario",
+    "lineTotal": "Totale riga",
+    "quantity": "Quantità"
+  },
+  "bank": {
+    "reasonTemplate": "Ordine STATIC - {{name}}"
+  },
+  "orders": {
+    "header": "Ordini",
+    "title": "Riepilogo ordini",
+    "loading": "Caricamento ordini...",
+    "empty": "Non hai ancora ordini.",
+    "goToShop": "Vai allo shop",
+    "toCompleteTitle": "Ordini da completare",
+    "pendingInfo": "Ordine salvato ma non ancora completato.",
+    "resume": "Riprendi ordine",
+    "myOrdersTitle": "I miei ordini",
+    "noConfirmed": "Nessun ordine confermato.",
+    "documents": "Documenti",
+    "invoice": "Fattura",
+    "summary": "Riepilogo",
+    "reordering": "Riordino...",
+    "reorder": "Riordina",
+    "nothingToReorder": "Nessun prodotto disponibile per il riordino"
+  },
+  "orders": {
+    "addedToCart": "Ordine #{{id}} aggiunto al carrello",
+    "invoiceFor": "Fattura ordine #{{id}}",
+    "summaryFor": "Riepilogo ordine #{{id}}"
+  },
+  "profile": {
+    "header": "Pannello utente",
+    "title": "I tuoi dati",
+    "subtitle": "Gestisci dati anagrafici, indirizzi e metodi di pagamento.",
+    "personalDataHeading": "Dati anagrafici",
+    "addressesHeading": "Indirizzi",
+    "securityHeading": "Sicurezza",
+    "currentPassword": "Password attuale",
+    "newPassword": "Nuova password",
+    "confirmNewPassword": "Conferma nuova password",
+    "updating": "Aggiornamento...",
+    "updatePassword": "Aggiorna password",
+    "saving": "Salvataggio...",
+    "saveChanges": "Salva modifiche"
+  },
   "footer": {
+    "description": "Attrezzatura premium per il calisthenics. Costruita per chi vuole andare oltre i propri limiti.",
     "rights": "Tutti i diritti riservati",
     "privacy": "Privacy Policy",
     "terms": "Termini di servizio",
     "contact": "Contatti"
+  },
+  "payment": {
+    "card": "Carta",
+    "bank": "Bonifico"
+  },
+  "bank": {
+    "iban": "IBAN",
+    "holder": "Intestatario",
+    "reason": "Causale"
+  },
+  "pdf": {
+    "invoice": "Fattura",
+    "date": "Data",
+    "client": "Cliente",
+    "features": "Caratteristiche",
+    "orderSummary": "Riepilogo ordine",
+    "summary": "Riepilogo",
+    "featuresUnavailable": "Caratteristiche non disponibili"
+  },
+  "errors": {
+    "loadPaymentMethods": "Errore nel caricamento dei metodi di pagamento",
+    "cannotRestoreDraft": "Impossibile riprendere questo ordine in corso",
+    "invalidPaypalEmail": "Inserisci una email PayPal valida",
+    "copyFailed": "Impossibile copiare negli appunti",
+    "removePaymentMethod": "Errore nella rimozione del metodo salvato",
+    "invalidEmail": "Inserisci una email valida",
+    "invalidPhone": "Inserisci un numero di telefono valido",
+    "invalidShippingAddress": "Inserisci un indirizzo di spedizione",
+    "invalidBillingAddress": "Inserisci un indirizzo di fatturazione",
+    "selectOrProvidePaymentMethod": "Seleziona un metodo salvato oppure inseriscine uno nuovo",
+    "invalidCvv": "Inserisci un CVV valido",
+    "cardNameRequired": "Inserisci il nome sulla carta",
+    "invalidCardNumber": "Numero carta non valido: usa 16 cifre nel formato 1234 5678 9012 3456",
+    "invalidExpiry": "Scadenza non valida (MM/AA)",
+    "outOfStockCart": "Prodotto terminato: aggiorna il carrello per continuare.",
+    "saveProfileOrMethod": "Errore nel salvataggio dei dati profilo/metodo",
+    "orderConfirmedDocsFailed": "Ordine confermato, ma salvataggio documenti non riuscito",
+    "productsUnavailable": "Alcuni prodotti non sono più disponibili. Aggiorna il carrello e riprova.",
+    "loadOrders": "Errore nel caricamento ordini",
+    "documentUnavailable": "Documento non disponibile",
+    "reorderFailed": "Errore durante il riordino"
+    ,
+    "loadProfile": "Errore nel caricamento del profilo",
+    "saveProfile": "Errore nel salvataggio del profilo",
+    "passwordCurrentRequired": "Inserisci la password attuale",
+    "passwordTooShort": "La nuova password deve avere almeno 6 caratteri",
+    "passwordsDontMatch": "Le nuove password non coincidono",
+    "changePasswordFailed": "Errore nel cambio password (verifica la password attuale)"
   }
 }

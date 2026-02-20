@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import api from '../lib/axios'
 import { useAuthStore } from '../store/authStore'
 import { useCartStore } from '../store/cartStore'
+import { useTranslation } from 'react-i18next'
 
 type OrderItemLine = {
   id: number
@@ -32,6 +33,7 @@ type OrderSummary = {
 }
 
 export default function OrdersSummaryPage() {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const { isAuthenticated } = useAuthStore()
   const { syncFromBackend, toggleCart } = useCartStore()
@@ -60,7 +62,7 @@ export default function OrdersSummaryPage() {
         const rows = Array.isArray(res.data) ? res.data : []
         setOrders(rows)
       } catch {
-        setError('Errore nel caricamento ordini')
+        setError(t('errors.loadOrders'))
       } finally {
         setLoading(false)
       }
@@ -104,13 +106,13 @@ export default function OrdersSummaryPage() {
       }
       setPdfViewer({ title, url: file.url, fileName: file.fileName })
     } catch {
-      setError('Documento non disponibile')
+      setError(t('errors.documentUnavailable'))
     }
   }
 
   const reorder = async (order: OrderSummary) => {
     if (!order.items || order.items.length === 0) {
-      setError('Nessun prodotto disponibile per il riordino')
+      setError(t('orders.nothingToReorder'))
       return
     }
 
@@ -130,9 +132,9 @@ export default function OrdersSummaryPage() {
 
       await syncFromBackend()
       toggleCart()
-      setSuccess(`Ordine #${order.id} aggiunto al carrello`)
+      setSuccess(t('orders.addedToCart', { id: order.id }))
     } catch {
-      setError('Errore durante il riordino')
+      setError(t('errors.reorderFailed'))
     } finally {
       setReorderingId(null)
     }
@@ -142,26 +144,26 @@ export default function OrdersSummaryPage() {
     <div className="min-h-screen pt-28 pb-24 px-6">
       <div className="max-w-5xl mx-auto">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-10">
-          <p className="text-[#e8ff00] text-sm font-bold uppercase tracking-[0.25em] mb-3">Ordini</p>
-          <h1 className="text-5xl md:text-6xl font-black text-white leading-none">Riepilogo ordini</h1>
+          <p className="text-[#e8ff00] text-sm font-bold uppercase tracking-[0.25em] mb-3">{t('orders.header')}</p>
+          <h1 className="text-5xl md:text-6xl font-black text-white leading-none">{t('orders.title')}</h1>
         </motion.div>
 
         {error && <p className="text-red-400 text-sm mb-4">{error}</p>}
         {success && <p className="text-[#e8ff00] text-sm mb-4">{success}</p>}
 
         {loading ? (
-          <div className="bg-[#111] border border-white/10 rounded-2xl p-6 text-gray-400">Caricamento ordini...</div>
+          <div className="bg-[#111] border border-white/10 rounded-2xl p-6 text-gray-400">{t('orders.loading')}</div>
         ) : orders.length === 0 ? (
           <div className="bg-[#111] border border-white/10 rounded-2xl p-6">
-            <p className="text-gray-400 mb-4">Non hai ancora ordini.</p>
+            <p className="text-gray-400 mb-4">{t('orders.empty')}</p>
             <Link to="/shop" className="inline-block bg-[#e8ff00] !text-black hover:!text-black font-bold px-6 py-3 rounded-full">
-              Vai allo shop
+              {t('orders.goToShop')}
             </Link>
           </div>
         ) : (
           <div className="space-y-8">
             <section>
-              <h2 className="text-white font-black text-2xl mb-4">Ordini da completare</h2>
+              <h2 className="text-white font-black text-2xl mb-4">{t('orders.toCompleteTitle')}</h2>
               {ordersToComplete.length === 0 ? (
                 <div className="bg-[#111] border border-white/10 rounded-2xl p-6 text-gray-500">
                   Nessun ordine in corso.
@@ -173,7 +175,7 @@ export default function OrdersSummaryPage() {
                       <div className="flex flex-wrap items-start justify-between gap-4 mb-4">
                         <div>
                           <p className="text-gray-400 text-sm">Ordine #{order.id}</p>
-                          <p className="text-white text-sm">{new Date(order.createdAt).toLocaleDateString('it-IT')}</p>
+                          <p className="text-white text-sm">{new Date(order.createdAt).toLocaleDateString()}</p>
                         </div>
                         <div className="text-right">
                           <p className="text-gray-500 text-xs uppercase tracking-wide">Stato</p>
@@ -181,12 +183,12 @@ export default function OrdersSummaryPage() {
                           <p className="text-[#e8ff00] font-black mt-1">€{Number(order.total).toFixed(2)}</p>
                         </div>
                       </div>
-                      <p className="text-gray-400 text-sm mb-4">Ordine salvato ma non ancora completato.</p>
+                          <p className="text-gray-400 text-sm mb-4">{t('orders.pendingInfo')}</p>
                       <Link
                         to={`/checkout?draftOrderId=${order.id}`}
                         className="inline-block bg-[#e8ff00] !text-black hover:!text-black font-bold px-5 py-2.5 rounded-full"
                       >
-                        Riprendi ordine
+                        {t('orders.resume')}
                       </Link>
                     </div>
                   ))}
@@ -195,10 +197,10 @@ export default function OrdersSummaryPage() {
             </section>
 
             <section>
-              <h2 className="text-white font-black text-2xl mb-4">I miei ordini</h2>
+              <h2 className="text-white font-black text-2xl mb-4">{t('orders.myOrdersTitle')}</h2>
               {confirmedOrders.length === 0 ? (
                 <div className="bg-[#111] border border-white/10 rounded-2xl p-6 text-gray-500">
-                  Nessun ordine confermato.
+                  {t('orders.noConfirmed')}
                 </div>
               ) : (
                 <div className="space-y-4">
@@ -226,21 +228,21 @@ export default function OrdersSummaryPage() {
                       </div>
 
                       <div className="mb-5">
-                        <p className="text-gray-400 text-xs uppercase tracking-wide mb-2">Documenti</p>
+                        <p className="text-gray-400 text-xs uppercase tracking-wide mb-2">{t('orders.documents')}</p>
                         <div className="flex flex-wrap gap-2">
                           <button
                             type="button"
-                            onClick={() => viewDocument(order.id, 'invoice', `Fattura ordine #${order.id}`)}
+                            onClick={() => viewDocument(order.id, 'invoice', t('orders.invoiceFor', { id: order.id }))}
                             className="border border-white/20 text-white text-sm font-semibold px-4 py-2 rounded-full hover:bg-white/10 cursor-pointer"
                           >
-                            Fattura
+                            {t('orders.invoice')}
                           </button>
                           <button
                             type="button"
-                            onClick={() => viewDocument(order.id, 'summary', `Riepilogo ordine #${order.id}`)}
+                            onClick={() => viewDocument(order.id, 'summary', t('orders.summaryFor', { id: order.id }))}
                             className="border border-white/20 text-white text-sm font-semibold px-4 py-2 rounded-full hover:bg-white/10 cursor-pointer"
                           >
-                            Riepilogo
+                            {t('orders.summary')}
                           </button>
                         </div>
                       </div>
@@ -251,7 +253,7 @@ export default function OrdersSummaryPage() {
                         disabled={reorderingId === order.id}
                         className="bg-[#e8ff00] text-black font-bold px-5 py-2.5 rounded-full disabled:opacity-60 cursor-pointer"
                       >
-                        {reorderingId === order.id ? 'Riordino...' : 'Riordina'}
+                        {reorderingId === order.id ? t('orders.reordering') : t('orders.reorder')}
                       </button>
                     </div>
                   ))}

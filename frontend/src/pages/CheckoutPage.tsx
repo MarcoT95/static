@@ -6,6 +6,7 @@ import api from '../lib/axios'
 import { useCartStore } from '../store/cartStore'
 import { useAuthStore } from '../store/authStore'
 import type { SavedPaymentMethod, CartItem, ProductSpecs } from '../types'
+import { useTranslation } from 'react-i18next'
 
 const CHECKOUT_SPECS_FALLBACK: Record<string, { height: string; width: string; weight: string; load: string; material: string }> = {
   'parallette-s': {
@@ -39,10 +40,10 @@ type CheckoutPdfItem = {
 }
 
 export default function CheckoutPage() {
+  const { t } = useTranslation()
   const bankTransferInfo = {
     iban: 'IT60X0542811101000000123456',
     holder: 'Static S.r.l.',
-    reason: 'Ordine STATIC - Nome Cognome',
   }
 
   const location = useLocation()
@@ -71,8 +72,8 @@ export default function CheckoutPage() {
   const [successOrderId, setSuccessOrderId] = useState<number | null>(null)
   const [isReviewStep, setIsReviewStep] = useState(false)
   const [invoicePdfUrl, setInvoicePdfUrl] = useState<string | null>(null)
-  const [invoiceFileName, setInvoiceFileName] = useState('')
   const [orderSummaryPdfUrl, setOrderSummaryPdfUrl] = useState<string | null>(null)
+  const [invoiceFileName, setInvoiceFileName] = useState('')
   const [orderSummaryFileName, setOrderSummaryFileName] = useState('')
   const [pdfViewer, setPdfViewer] = useState<{ title: string; url: string } | null>(null)
   const [error, setError] = useState<string | null>(null)
@@ -138,31 +139,31 @@ export default function CheckoutPage() {
   }) => {
     const doc = new jsPDF()
     const invoiceCode = `INV-${params.orderId}-${params.orderDate.getTime().toString().slice(-6)}`
-    const safeDate = params.orderDate.toLocaleDateString('it-IT')
+    const safeDate = params.orderDate.toLocaleDateString()
 
     doc.setFontSize(20)
-    doc.text('STATIC - Fattura', 14, 18)
+    doc.text(`STATIC - ${t('pdf.invoice')}`, 14, 18)
 
     doc.setFontSize(11)
-    doc.text(`Fattura: ${invoiceCode}`, 14, 28)
-    doc.text(`Ordine: #${params.orderId}`, 14, 34)
-    doc.text(`Data: ${safeDate}`, 14, 40)
+    doc.text(`${t('pdf.invoice')}: ${invoiceCode}`, 14, 28)
+    doc.text(`${t('checkout.orderId')}: #${params.orderId}`, 14, 34)
+    doc.text(`${t('pdf.date')}: ${safeDate}`, 14, 40)
 
-    doc.text('Cliente', 14, 52)
-    doc.text(`Email: ${params.emailValue}`, 14, 58)
-    doc.text(`Telefono: ${params.phoneValue}`, 14, 64)
-    doc.text(`Spedizione: ${params.shippingAddressValue}`, 14, 70)
-    doc.text(`Fatturazione: ${params.billingAddressValue}`, 14, 76)
-    doc.text(`Pagamento: ${params.paymentLabel}`, 14, 82)
+    doc.text(t('pdf.client'), 14, 52)
+    doc.text(`${t('auth.email')}: ${params.emailValue}`, 14, 58)
+    doc.text(`${t('checkout.phone')}: ${params.phoneValue}`, 14, 64)
+    doc.text(`${t('checkout.shippingAddress')}: ${params.shippingAddressValue}`, 14, 70)
+    doc.text(`${t('checkout.billingAddress')}: ${params.billingAddressValue}`, 14, 76)
+    doc.text(`${t('checkout.payment')}: ${params.paymentLabel}`, 14, 82)
 
     let y = 94
-    doc.text('Dettaglio prodotti', 14, y)
+    doc.text(t('pdf.productDetails'), 14, y)
     y += 8
 
     params.itemsSnapshot.forEach((line, index) => {
       const specsText = line.specs
-        ? `Caratteristiche: H ${line.specs.height} • W ${line.specs.width} • Peso ${line.specs.weight} • Portata ${line.specs.load} • Materiale ${line.specs.material}`
-        : 'Caratteristiche: n/d'
+        ? `${t('product.specs.heightShort')}: ${line.specs.height} • ${t('product.specs.widthShort')}: ${line.specs.width} • ${t('product.specs.weightShort')}: ${line.specs.weight} • ${t('product.specs.loadShort')}: ${line.specs.load} • ${t('product.specs.material')}: ${line.specs.material}`
+        : `${t('pdf.features')}: n/d`
       const wrappedSpecs = doc.splitTextToSize(specsText, 148)
       const amount = (line.unitPrice * line.quantity).toFixed(2)
 
@@ -209,21 +210,21 @@ export default function CheckoutPage() {
   }) => {
     const doc = new jsPDF()
     const summaryCode = `RIEP-${params.orderId}-${params.orderDate.getTime().toString().slice(-6)}`
-    const safeDate = params.orderDate.toLocaleDateString('it-IT')
+    const safeDate = params.orderDate.toLocaleDateString()
 
     doc.setFontSize(20)
-    doc.text('STATIC - Riepilogo Ordine', 14, 18)
+    doc.text(`STATIC - ${t('pdf.orderSummary')}`, 14, 18)
     doc.setFontSize(11)
-    doc.text(`Riepilogo: ${summaryCode}`, 14, 28)
-    doc.text(`Ordine: #${params.orderId}`, 14, 34)
-    doc.text(`Data: ${safeDate}`, 14, 40)
+    doc.text(`${t('pdf.summary')}: ${summaryCode}`, 14, 28)
+    doc.text(`${t('checkout.orderId')}: #${params.orderId}`, 14, 34)
+    doc.text(`${t('pdf.date')}: ${safeDate}`, 14, 40)
 
     let y = 52
     params.itemsSnapshot.forEach((line, index) => {
       const lineTotal = (line.unitPrice * line.quantity).toFixed(2)
       const specsText = line.specs
-        ? `Altezza ${line.specs.height}, Larghezza ${line.specs.width}, Peso ${line.specs.weight}, Portata ${line.specs.load}, Materiale ${line.specs.material}`
-        : 'Caratteristiche non disponibili'
+        ? `${t('product.specs.height')}: ${line.specs.height}, ${t('product.specs.width')}: ${line.specs.width}, ${t('product.specs.weight')}: ${line.specs.weight}, ${t('product.specs.load')}: ${line.specs.load}, ${t('product.specs.material')}: ${line.specs.material}`
+        : t('pdf.featuresUnavailable')
       const wrappedSpecs = doc.splitTextToSize(specsText, 165)
 
       if (y > 250) {
@@ -235,7 +236,7 @@ export default function CheckoutPage() {
       doc.text(`${index + 1}. ${line.name}`, 14, y)
       y += 6
       doc.setFontSize(10)
-      doc.text(`Quantità: ${line.quantity}  |  Prezzo unitario: EUR ${line.unitPrice.toFixed(2)}  |  Totale riga: EUR ${lineTotal}`, 18, y)
+      doc.text(`${t('cart.quantity')}: ${line.quantity}  |  ${t('cart.unitPrice')}: EUR ${line.unitPrice.toFixed(2)}  |  ${t('cart.lineTotal')}: EUR ${lineTotal}`, 18, y)
       y += 5
       doc.text(wrappedSpecs, 18, y)
       y += (wrappedSpecs.length * 4.5) + 5
@@ -243,7 +244,6 @@ export default function CheckoutPage() {
 
     doc.setFontSize(12)
     doc.text(`Totale ordine: EUR ${params.totalSnapshot.toFixed(2)}`, 170, Math.min(y + 2, 285), { align: 'right' })
-
     const blob = doc.output('blob')
     const url = URL.createObjectURL(blob)
     return { url, blob, fileName: `${summaryCode}.pdf` }
@@ -280,7 +280,7 @@ export default function CheckoutPage() {
           setPaymentMethod(ordered[0].method)
         }
       } catch {
-        setError('Errore nel caricamento dei metodi di pagamento')
+        setError(t('errors.loadPaymentMethods'))
       }
     }
 
@@ -321,7 +321,7 @@ export default function CheckoutPage() {
         )
         await syncFromBackend()
       } catch {
-        setError('Impossibile riprendere questo ordine in corso')
+        setError(t('errors.cannotRestoreDraft'))
       }
     }
 
@@ -341,7 +341,7 @@ export default function CheckoutPage() {
       ? activeSavedMethod.paypalEmail ?? ''
       : paypalEmail).trim().toLowerCase()
     if (!useSavedPaymentMethod && !/^\S+@\S+\.\S+$/.test(email)) {
-      setError('Inserisci una email PayPal valida')
+      setError(t('errors.invalidPaypalEmail'))
       return
     }
     const target = email
@@ -356,7 +356,7 @@ export default function CheckoutPage() {
       setCopiedField(key)
       setTimeout(() => setCopiedField(''), 1500)
     } catch {
-      setError('Impossibile copiare negli appunti')
+      setError(t('errors.copyFailed'))
     }
   }
 
@@ -387,7 +387,7 @@ export default function CheckoutPage() {
         }
       }
     } catch {
-      setError('Errore nella rimozione del metodo salvato')
+      setError(t('errors.removePaymentMethod'))
     }
   }
 
@@ -413,33 +413,33 @@ export default function CheckoutPage() {
     }
 
     if (!email.trim() || !/^\S+@\S+\.\S+$/.test(email)) {
-      setError('Inserisci una email valida')
+      setError(t('errors.invalidEmail'))
       return false
     }
 
     if (!phone.trim() || phone.replace(/\D/g, '').length < 8) {
-      setError('Inserisci un numero di telefono valido')
+      setError(t('errors.invalidPhone'))
       return false
     }
 
     if (!shippingAddress.trim()) {
-      setError('Inserisci un indirizzo di spedizione')
+      setError(t('errors.invalidShippingAddress'))
       return false
     }
 
     const { finalBillingAddress, selectedSavedMethod } = getCheckoutContext()
     if (!finalBillingAddress.trim()) {
-      setError('Inserisci un indirizzo di fatturazione')
+      setError(t('errors.invalidBillingAddress'))
       return false
     }
 
     if (useSavedPaymentMethod) {
       if (!selectedSavedMethod) {
-        setError('Seleziona un metodo salvato oppure inseriscine uno nuovo')
+        setError(t('errors.selectOrProvidePaymentMethod'))
         return false
       }
       if (selectedSavedMethod.method === 'card' && !/^\d{3}$/.test(cardCvv)) {
-        setError('Inserisci un CVV valido')
+        setError(t('errors.invalidCvv'))
         return false
       }
     }
@@ -447,35 +447,35 @@ export default function CheckoutPage() {
     if (!useSavedPaymentMethod && paymentMethod === 'card') {
       const digits = cardNumber.replace(/\D/g, '')
       if (!cardName.trim()) {
-        setError('Inserisci il nome sulla carta')
+        setError(t('errors.cardNameRequired'))
         return false
       }
       if (digits.length !== 16 || !/^\d{4}\s\d{4}\s\d{4}\s\d{4}$/.test(cardNumber.trim())) {
-        setError('Numero carta non valido: usa 16 cifre nel formato 1234 5678 9012 3456')
+        setError(t('errors.invalidCardNumber'))
         return false
       }
       if (!isValidFutureExpiry(cardExpiry)) {
-        setError('Scadenza non valida (MM/AA)')
+        setError(t('errors.invalidExpiry'))
         return false
       }
       if (!/^\d{3}$/.test(cardCvv)) {
-        setError('Inserisci un CVV valido')
+        setError(t('errors.invalidCvv'))
         return false
       }
     }
 
     if (!useSavedPaymentMethod && paymentMethod === 'paypal' && !/^\S+@\S+\.\S+$/.test(paypalEmail.trim())) {
-      setError('Inserisci una email PayPal valida')
+      setError(t('errors.invalidPaypalEmail'))
       return false
     }
 
     if (items.length === 0) {
-      setError('Il carrello è vuoto')
+      setError(t('cart.empty'))
       return false
     }
 
     if (hasOutOfStockItems) {
-      setError('Prodotto terminato: aggiorna il carrello per continuare.')
+      setError(t('errors.outOfStockCart'))
       return false
     }
 
@@ -706,16 +706,16 @@ export default function CheckoutPage() {
       const backendMessage = (err as { response?: { data?: { message?: string | string[] } } })
         ?.response?.data?.message
 
-      if (Array.isArray(backendMessage) && backendMessage.length > 0) {
+        if (Array.isArray(backendMessage) && backendMessage.length > 0) {
         setError(String(backendMessage[0]))
       } else if (typeof backendMessage === 'string' && backendMessage.trim().length > 0) {
         if (backendMessage.includes('Prodotti non validi') || backendMessage.includes('non disponibili')) {
-          setError('Alcuni prodotti non sono più disponibili. Aggiorna il carrello e riprova.')
+          setError(t('errors.productsUnavailable'))
         } else {
           setError(backendMessage)
         }
       } else {
-        setError('Errore durante la creazione dell\'ordine')
+        setError(t('errors.orderCreationFailed'))
       }
     } finally {
       setLoading(false)
@@ -729,7 +729,7 @@ export default function CheckoutPage() {
     }
 
     if (items.length === 0) {
-      setError('Il carrello è vuoto')
+      setError(t('cart.empty'))
       return
     }
 
@@ -765,7 +765,7 @@ export default function CheckoutPage() {
 
       navigate('/orders-summary')
     } catch {
-      setError('Errore nel salvataggio ordine in corso')
+      setError(t('errors.saveOrderDraft'))
     } finally {
       setSavingDraft(false)
     }
@@ -777,62 +777,62 @@ export default function CheckoutPage() {
     <div className="min-h-screen pt-28 pb-24 px-6">
       <div className="max-w-5xl mx-auto">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-10">
-          <p className="text-[#e8ff00] text-sm font-bold uppercase tracking-[0.25em] mb-3">Checkout</p>
-          <h1 className="text-5xl md:text-6xl font-black text-white leading-none">Completa il tuo ordine</h1>
+          <p className="text-[#e8ff00] text-sm font-bold uppercase tracking-[0.25em] mb-3">{t('checkout.smallHeader')}</p>
+          <h1 className="text-5xl md:text-6xl font-black text-white leading-none">{t('checkout.title')}</h1>
         </motion.div>
 
         {successOrderId ? (
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
             <div className="bg-[#111] border border-white/10 rounded-2xl p-6 h-full flex flex-col">
-              <h2 className="text-3xl font-black text-white mb-3">Ordine confermato</h2>
-              <p className="text-gray-400 mb-2">ID ordine: <span className="text-[#e8ff00] font-bold">#{successOrderId}</span></p>
-              <p className="text-gray-500 mb-6">Fattura e riepilogo ordine generati automaticamente.</p>
+              <h2 className="text-3xl font-black text-white mb-3">{t('checkout.orderConfirmed')}</h2>
+              <p className="text-gray-400 mb-2">{t('checkout.orderId')}: <span className="text-[#e8ff00] font-bold">#{successOrderId}</span></p>
+              <p className="text-gray-500 mb-6">{t('checkout.invoiceGenerated')}</p>
 
               <div className="mt-auto pt-4 grid grid-cols-2 gap-2">
                 {invoicePdfUrl && (
                   <a
                     href={invoicePdfUrl}
-                    download={invoiceFileName || `fattura-${successOrderId}.pdf`}
+                    download={invoiceFileName || `${t('pdf.invoice').toLowerCase()}-${successOrderId}.pdf`}
                     className="inline-block text-center bg-[#e8ff00] !text-black hover:!text-black font-bold text-sm px-4 py-2.5 rounded-full"
                   >
-                    Download
+                    {t('common.download')}
                   </a>
                 )}
                 {invoicePdfUrl && (
                   <button
                     type="button"
-                    onClick={() => setPdfViewer({ title: 'Fattura PDF', url: invoicePdfUrl })}
+                    onClick={() => setPdfViewer({ title: t('checkout.invoicePdfTitle'), url: invoicePdfUrl })}
                     className="inline-block text-center border border-white/20 text-white font-bold text-sm px-4 py-2.5 rounded-full hover:bg-white/10"
                   >
-                    Visualizza
+                    {t('common.view')}
                   </button>
                 )}
               </div>
             </div>
 
             <div className="bg-[#111] border border-white/10 rounded-2xl p-6 h-full flex flex-col">
-              <h2 className="text-3xl font-black text-white mb-3">Riepilogo</h2>
-              <p className="text-gray-400 mb-2">ID ordine: <span className="text-[#e8ff00] font-bold">#{successOrderId}</span></p>
-              <p className="text-gray-500 mb-6">Riepilogo ordine PDF pronto per download o visualizzazione.</p>
+              <h2 className="text-3xl font-black text-white mb-3">{t('checkout.summaryTitle')}</h2>
+              <p className="text-gray-400 mb-2">{t('checkout.orderId')}: <span className="text-[#e8ff00] font-bold">#{successOrderId}</span></p>
+              <p className="text-gray-500 mb-6">{t('checkout.summaryPdfReady')}</p>
 
               <div className="mt-auto pt-4 grid grid-cols-2 gap-2">
                 {orderSummaryPdfUrl && (
                   <a
                     href={orderSummaryPdfUrl}
-                    download={orderSummaryFileName || `riepilogo-${successOrderId}.pdf`}
+                    download={orderSummaryFileName || `${t('pdf.orderSummary').toLowerCase()}-${successOrderId}.pdf`}
                     className="inline-block text-center bg-[#e8ff00] !text-black hover:!text-black font-bold text-sm px-4 py-2.5 rounded-full"
                   >
-                    Download
+                    {t('common.download')}
                   </a>
                 )}
                 {orderSummaryPdfUrl && (
                   <button
                     type="button"
-                    onClick={() => setPdfViewer({ title: 'Riepilogo ordine PDF', url: orderSummaryPdfUrl })}
+                    onClick={() => setPdfViewer({ title: t('checkout.orderSummaryPdfTitle'), url: orderSummaryPdfUrl })}
                     className="inline-block text-center border border-white/20 text-white font-bold text-sm px-4 py-2.5 rounded-full hover:bg-white/10"
                   >
-                    Visualizza
+                    {t('common.view')}
                   </button>
                 )}
               </div>
@@ -841,7 +841,7 @@ export default function CheckoutPage() {
 
             <div className="flex justify-center">
               <Link to="/shop" className="inline-block border border-white/20 text-white font-bold px-6 py-3 rounded-full hover:bg-white/10">
-                Torna allo shop
+                {t('checkout.backToShop')}
               </Link>
             </div>
           </motion.div>
@@ -893,7 +893,7 @@ export default function CheckoutPage() {
                       onChange={(e) => setSameBillingAsShipping(e.target.checked)}
                       className="accent-[#e8ff00]"
                     />
-                    Uguale alla spedizione
+                    {t('checkout_extra.sameAsShipping')}
                   </label>
                 </div>
                 <input
@@ -901,7 +901,7 @@ export default function CheckoutPage() {
                   onChange={(e) => setBillingAddress(e.target.value)}
                   disabled={sameBillingAsShipping}
                   className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-[#e8ff00]/50 disabled:opacity-60"
-                  placeholder="Via Fatturazione 25, Milano"
+                  placeholder={t('checkout_extra.billingPlaceholder')}
                 />
                 <label className="mt-3 text-sm text-gray-400 flex items-center gap-2 cursor-pointer select-none">
                   <input
@@ -910,17 +910,17 @@ export default function CheckoutPage() {
                     onChange={(e) => setSaveMyDataForFuture(e.target.checked)}
                     className="accent-[#e8ff00]"
                   />
-                  Salva i miei dati per i prossimi acquisti
+                  {t('checkout.saveMyData')}
                 </label>
               </div>
 
               {!isReviewStep ? (
                 <>
                   <div>
-                    <label className="text-sm text-gray-400 mb-2 block">Step 3 - Conferma pagamento</label>
+                    <label className="text-sm text-gray-400 mb-2 block">{t('checkout.step3')}</label>
                     {savedPaymentMethods.length > 0 && (
                       <div className="mb-4 space-y-2">
-                        <p className="text-sm text-gray-400">Lista metodi salvati</p>
+                        <p className="text-sm text-gray-400">{t('checkout.savedMethodsList')}</p>
                         {savedPaymentMethods.map((method) => (
                           <div key={method.id} className="flex items-start justify-between gap-3 bg-white/5 border border-white/10 rounded-xl px-3 py-2">
                             <label className="flex items-start gap-2 cursor-pointer">
@@ -936,7 +936,7 @@ export default function CheckoutPage() {
                               />
                               <span>
                                 <span className="text-white text-sm block">{method.maskedLabel}</span>
-                                <span className="text-xs text-gray-500">{method.isDefault ? 'Predefinito' : 'Salvato'}</span>
+                                <span className="text-xs text-gray-500">{method.isDefault ? t('checkout.default') : t('checkout.saved')}</span>
                               </span>
                             </label>
                             <button
@@ -944,7 +944,7 @@ export default function CheckoutPage() {
                               onClick={() => removeSavedPaymentMethod(method.id)}
                               className="text-xs px-2 py-1 rounded-lg border border-white/15 text-gray-300 hover:bg-white/10"
                             >
-                              Rimuovi
+                              {t('checkout.remove')}
                             </button>
                           </div>
                         ))}
@@ -953,7 +953,7 @@ export default function CheckoutPage() {
                           onClick={() => setUseSavedPaymentMethod(false)}
                           className="text-xs px-3 py-2 rounded-lg border border-white/15 text-gray-300 hover:bg-white/10"
                         >
-                          Inserisci nuovo metodo
+                          {t('checkout.insertNewMethod')}
                         </button>
                       </div>
                     )}
@@ -961,9 +961,9 @@ export default function CheckoutPage() {
                     {!useSavedPaymentMethod && (
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-4">
                       {[
-                        { key: 'card', label: 'Carta' },
+                        { key: 'card', label: t('payment.card') },
                         { key: 'paypal', label: 'PayPal' },
-                        { key: 'bank', label: 'Bonifico' },
+                        { key: 'bank', label: t('payment.bank') },
                       ].map((method) => (
                         <button
                           key={method.key}
@@ -986,7 +986,7 @@ export default function CheckoutPage() {
                         {!useSavedPaymentMethod && (
                         <>
                         <div>
-                          <label className="text-sm text-gray-400 mb-2 block">Nome sulla carta</label>
+                          <label className="text-sm text-gray-400 mb-2 block">{t('checkout.cardName')}</label>
                           <input
                             value={cardName}
                             onChange={(e) => setCardName(e.target.value)}
@@ -995,7 +995,7 @@ export default function CheckoutPage() {
                           />
                         </div>
                         <div>
-                          <label className="text-sm text-gray-400 mb-2 block">Numero carta</label>
+                          <label className="text-sm text-gray-400 mb-2 block">{t('checkout.cardNumber')}</label>
                           <input
                             value={cardNumber}
                             onChange={(e) => setCardNumber(formatCardNumber(e.target.value))}
@@ -1004,7 +1004,7 @@ export default function CheckoutPage() {
                           />
                         </div>
                         <div>
-                          <label className="text-sm text-gray-400 mb-2 block">Scadenza (MM/AA)</label>
+                          <label className="text-sm text-gray-400 mb-2 block">{t('checkout.cardExpiry')}</label>
                           <input
                             value={cardExpiry}
                             onChange={(e) => setCardExpiry(formatExpiry(e.target.value))}
@@ -1015,7 +1015,7 @@ export default function CheckoutPage() {
                         </>
                         )}
                         <div>
-                          <label className="text-sm text-gray-400 mb-2 block">CVV</label>
+                          <label className="text-sm text-gray-400 mb-2 block">{t('checkout.cvv')}</label>
                           <input
                             value={cardCvv}
                             onChange={(e) => setCardCvv(e.target.value.replace(/\D/g, '').slice(0, 3))}
@@ -1030,7 +1030,7 @@ export default function CheckoutPage() {
                       <div className="bg-white/5 border border-white/10 rounded-xl px-4 py-4 space-y-3">
                         {!useSavedPaymentMethod && (
                           <>
-                            <label className="text-sm text-gray-400 block">Email PayPal</label>
+                            <label className="text-sm text-gray-400 block">{t('checkout_extra.paypalEmail')}</label>
                             <input
                               value={paypalEmail}
                               onChange={(e) => setPaypalEmail(e.target.value)}
@@ -1039,13 +1039,13 @@ export default function CheckoutPage() {
                             />
                           </>
                         )}
-                        <p className="text-sm text-gray-300">Accedi a PayPal: l'autenticazione avviene direttamente sul provider.</p>
+                        <p className="text-sm text-gray-300">{t('checkout.paypalInfo')}</p>
                         <button
                           type="button"
                           onClick={redirectToPaypal}
                           className="text-sm px-4 py-2 rounded-lg border border-[#e8ff00]/40 text-[#e8ff00] hover:bg-[#e8ff00]/10"
                         >
-                          Vai a PayPal
+                          {t('checkout.goToPaypal')}
                         </button>
                       </div>
                     )}
@@ -1053,31 +1053,35 @@ export default function CheckoutPage() {
 
                   {((useSavedPaymentMethod && activeSavedMethod?.method === 'bank') || (!useSavedPaymentMethod && paymentMethod === 'bank')) && (
                     <div className="bg-white/5 border border-white/10 rounded-xl px-4 py-4 space-y-3">
-                      <p className="text-sm text-gray-300">Bonifico bancario (dati in sola lettura)</p>
+                      <p className="text-sm text-gray-300">{t('checkout.bankInfo')}</p>
                       <div>
-                        <label className="text-xs text-gray-500 mb-1 block">IBAN</label>
+                        <label className="text-xs text-gray-500 mb-1 block">{t('bank.iban')}</label>
                         <input value={bankTransferInfo.iban} readOnly className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white/90" />
                         <button
                           type="button"
                           onClick={() => copyText(bankTransferInfo.iban, 'iban')}
                           className="mt-2 text-xs px-3 py-2 rounded-lg border border-white/15 text-gray-300 hover:bg-white/10"
                         >
-                          {copiedField === 'iban' ? 'Copiato' : 'Copia IBAN'}
+                          {copiedField === 'iban' ? t('common.copied') : t('checkout.copyIban')}
                         </button>
                       </div>
                       <div>
-                        <label className="text-xs text-gray-500 mb-1 block">Intestatario</label>
+                        <label className="text-xs text-gray-500 mb-1 block">{t('bank.holder')}</label>
                         <input value={bankTransferInfo.holder} readOnly className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white/90" />
                       </div>
                       <div>
-                        <label className="text-xs text-gray-500 mb-1 block">Causale</label>
-                        <input value={bankTransferInfo.reason} readOnly className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white/90" />
+                        <label className="text-xs text-gray-500 mb-1 block">{t('bank.reason')}</label>
+                        <input
+                          value={t('bank.reasonTemplate', { name: `${user?.firstName ?? ''} ${user?.lastName ?? ''}` }).trim()}
+                          readOnly
+                          className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white/90"
+                        />
                         <button
                           type="button"
-                          onClick={() => copyText(bankTransferInfo.reason, 'reason')}
+                          onClick={() => copyText(t('bank.reasonTemplate', { name: `${user?.firstName ?? ''} ${user?.lastName ?? ''}` }).trim(), 'reason')}
                           className="mt-2 text-xs px-3 py-2 rounded-lg border border-white/15 text-gray-300 hover:bg-white/10"
                         >
-                          {copiedField === 'reason' ? 'Copiato' : 'Copia causale'}
+                          {copiedField === 'reason' ? t('common.copied') : t('checkout.copyReason')}
                         </button>
                       </div>
                     </div>
@@ -1091,50 +1095,50 @@ export default function CheckoutPage() {
                         onChange={(e) => setSavePaymentMethodForFuture(e.target.checked)}
                         className="accent-[#e8ff00]"
                       />
-                      Salva questo metodo di pagamento nel tuo account
+                      {t('checkout.savePaymentMethodForFuture')}
                     </label>
                   )}
 
                   <div>
-                    <label className="text-sm text-gray-400 mb-2 block">Note ordine (opzionale)</label>
+                    <label className="text-sm text-gray-400 mb-2 block">{t('checkout.notes')}</label>
                     <textarea
                       value={notes}
                       onChange={(e) => setNotes(e.target.value)}
                       rows={4}
                       className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-[#e8ff00]/50 resize-none"
-                      placeholder="Citofono, orario consegna, ecc."
+                      placeholder={t('checkout.notesPlaceholder')}
                     />
                   </div>
                 </>
               ) : (
                 <div className="space-y-4">
-                  <p className="text-[#e8ff00] text-sm font-bold uppercase tracking-wider">Riepilogo ordine</p>
+                  <p className="text-[#e8ff00] text-sm font-bold uppercase tracking-wider">{t('checkout.orderSummarySmall')}</p>
                   <div className="bg-white/5 border border-white/10 rounded-xl p-4 space-y-3 text-sm">
                     <div>
-                      <p className="text-gray-500">Contatti</p>
+                      <p className="text-gray-500">{t('checkout.contacts')}</p>
                       <p className="text-white">{email} • {phone}</p>
                     </div>
                     <div>
-                      <p className="text-gray-500">Spedizione</p>
+                      <p className="text-gray-500">{t('checkout.shipping')}</p>
                       <p className="text-white">{shippingAddress}</p>
                     </div>
                     <div>
-                      <p className="text-gray-500">Fatturazione</p>
+                      <p className="text-gray-500">{t('checkout.billing')}</p>
                       <p className="text-white">{finalBillingAddress}</p>
                     </div>
                     <div>
-                      <p className="text-gray-500">Pagamento</p>
+                      <p className="text-gray-500">{t('checkout.payment')}</p>
                       <p className="text-white">{methodLabel}</p>
                     </div>
                     {methodForOrder === 'card' && (
                       <div>
-                        <p className="text-gray-500">Sicurezza</p>
-                        <p className="text-white">CVV inserito</p>
+                        <p className="text-gray-500">{t('checkout.security')}</p>
+                        <p className="text-white">{t('checkout.cvvProvided')}</p>
                       </div>
                     )}
                     {notes.trim() && (
                       <div>
-                        <p className="text-gray-500">Note</p>
+                        <p className="text-gray-500">{t('checkout.notesLabel')}</p>
                         <p className="text-white">{notes}</p>
                       </div>
                     )}
@@ -1144,13 +1148,13 @@ export default function CheckoutPage() {
                     onClick={() => setIsReviewStep(false)}
                     className="text-xs px-3 py-2 rounded-lg border border-white/15 text-gray-300 hover:bg-white/10"
                   >
-                    Modifica dati
+                    {t('checkout.editData')}
                   </button>
                 </div>
               )}
 
               {error && <p className="text-red-400 text-sm">{error}</p>}
-              {hasOutOfStockItems && <p className="text-red-400 text-sm">Prodotto terminato: aggiorna il carrello per continuare.</p>}
+              {hasOutOfStockItems && <p className="text-red-400 text-sm">{t('errors.outOfStockCart')}</p>}
 
               <motion.button
                 whileHover={{ scale: 1.01 }}
@@ -1159,7 +1163,7 @@ export default function CheckoutPage() {
                 disabled={loading || hasOutOfStockItems}
                 className="w-full bg-[#e8ff00] text-black font-black py-4 rounded-xl text-lg disabled:opacity-60 cursor-pointer"
               >
-                {loading ? 'Invio ordine...' : isReviewStep ? 'Procedi al pagamento' : 'Vai al riepilogo ordine'}
+                {loading ? t('checkout.sendingOrder') : isReviewStep ? t('checkout.proceedToPayment') : t('checkout.goToOrderSummary')}
               </motion.button>
 
               {!isReviewStep && (
@@ -1169,16 +1173,16 @@ export default function CheckoutPage() {
                   disabled={savingDraft || loading || hasOutOfStockItems}
                   className="w-full mt-3 border border-white/20 text-white font-bold py-3 rounded-xl disabled:opacity-60 cursor-pointer hover:bg-white/10"
                 >
-                  {savingDraft ? 'Salvataggio in corso...' : 'Acquista in seguito'}
+                  {savingDraft ? t('checkout.savingDraft') : t('checkout.saveForLater')}
                 </button>
               )}
             </div>
 
             <div className="bg-[#111] border border-white/10 rounded-2xl p-6 h-fit">
-              <h3 className="text-white font-black text-xl mb-4">Riepilogo ordine</h3>
+              <h3 className="text-white font-black text-xl mb-4">{t('checkout.orderSummaryHeading')}</h3>
               <div className="space-y-3 mb-5">
                 {items.length === 0 ? (
-                  <p className="text-gray-500 text-sm">Carrello vuoto</p>
+                  <p className="text-gray-500 text-sm">{t('cart.empty')}</p>
                 ) : (
                   items.map((item) => {
                     const isOutOfStock = item.product.stock <= 0 || item.quantity > item.product.stock
@@ -1199,7 +1203,7 @@ export default function CheckoutPage() {
                               {item.product.name}
                             </p>
                             <p className="text-gray-500 text-xs">Quantità: {item.quantity}</p>
-                            {isOutOfStock && <p className="text-red-400 text-xs mt-1">Prodotto terminato</p>}
+                            {isOutOfStock && <p className="text-red-400 text-xs mt-1">{t('product.outOfStock')}</p>}
                           </div>
                           <div className="text-right">
                             <p className="text-[#e8ff00] font-bold text-sm">€{(Number(item.product.price) * item.quantity).toFixed(2)}</p>
@@ -1211,7 +1215,7 @@ export default function CheckoutPage() {
                 )}
               </div>
               <div className="border-t border-white/10 pt-4 flex justify-between text-lg font-bold">
-                <span className="text-gray-400">Totale</span>
+                <span className="text-gray-400">{t('cart.total')}</span>
                 <span className="text-[#e8ff00]">€{total().toFixed(2)}</span>
               </div>
             </div>
@@ -1297,23 +1301,23 @@ export default function CheckoutPage() {
                   {selectedSummarySpecs && (
                     <div className="grid grid-cols-2 gap-3 text-sm">
                       <div className="bg-white/5 border border-white/10 rounded-xl p-3">
-                        <p className="text-gray-500 text-xs">Altezza</p>
+                        <p className="text-gray-500 text-xs">{t('product.specs.height')}</p>
                         <p className="text-white font-semibold">{selectedSummarySpecs.height}</p>
                       </div>
                       <div className="bg-white/5 border border-white/10 rounded-xl p-3">
-                        <p className="text-gray-500 text-xs">Larghezza</p>
+                        <p className="text-gray-500 text-xs">{t('product.specs.width')}</p>
                         <p className="text-white font-semibold">{selectedSummarySpecs.width}</p>
                       </div>
                       <div className="bg-white/5 border border-white/10 rounded-xl p-3">
-                        <p className="text-gray-500 text-xs">Peso</p>
+                        <p className="text-gray-500 text-xs">{t('product.specs.weight')}</p>
                         <p className="text-white font-semibold">{selectedSummarySpecs.weight}</p>
                       </div>
                       <div className="bg-white/5 border border-white/10 rounded-xl p-3">
-                        <p className="text-gray-500 text-xs">Portata</p>
+                        <p className="text-gray-500 text-xs">{t('product.specs.load')}</p>
                         <p className="text-white font-semibold">{selectedSummarySpecs.load}</p>
                       </div>
                       <div className="bg-white/5 border border-white/10 rounded-xl p-3 col-span-2">
-                        <p className="text-gray-500 text-xs">Materiale</p>
+                        <p className="text-gray-500 text-xs">{t('product.specs.material')}</p>
                         <p className="text-white font-semibold">{selectedSummarySpecs.material}</p>
                       </div>
                     </div>

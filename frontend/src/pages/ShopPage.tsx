@@ -2,48 +2,49 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useCartStore } from '../store/cartStore'
 import type { Product } from '../types'
+import { useTranslation } from 'react-i18next'
 
 const MOCK_PRODUCTS: Product[] = [
   {
     id: 1,
     name: 'Parallette S',
     slug: 'parallette-s',
-    description: 'La versione compatta, pensata per chi si allena in spazi ridotti. Altezza 30 cm, larghezza 42 cm. Ideale per L-sit, planche progression e dips da pavimento. Struttura in acciaio al carbonio con piedini antiscivolo in gomma vulcanizzata.',
+    description: 'Versione compatta pensata per spazi ridotti. Altezza 15 cm, larghezza 30 cm. Ideale per L-sit, planche progression e dips da pavimento. Struttura in acciaio con piedini antiscivolo.',
     price: 89.99,
     images: ['/standard.png'],
     category: { id: 1, name: 'Parallette', slug: 'parallette' },
     stock: 15,
     featured: false,
     createdAt: '',
-    specs: { height: '30 cm', width: '42 cm', weight: '1.8 kg', load: '200 kg', material: 'Acciaio C45' },
+    specs: { height: '15 cm', width: '30 cm', weight: '1.8 kg', load: '200 kg', material: 'Acciaio C45' },
     tag: 'COMPACT',
   },
   {
     id: 2,
     name: 'Parallette M',
     slug: 'parallette-m',
-    description: 'La misura intermedia, la più versatile della linea Static. Altezza 40 cm, larghezza 50 cm. Perfetta per handstand push-up, pike push-up e pseudo planche. Le impugnature in alluminio anodizzato garantiscono una presa sicura anche a lungo.',
+    description: 'La misura intermedia, molto versatile. Altezza 15 cm, larghezza 40 cm. Perfetta per handstand push-up, pike push-up e pseudo planche. Impugnature in alluminio anodizzato per presa sicura.',
     price: 129.99,
     images: ['/medium.png'],
     category: { id: 1, name: 'Parallette', slug: 'parallette' },
     stock: 10,
     featured: true,
     createdAt: '',
-    specs: { height: '40 cm', width: '50 cm', weight: '2.6 kg', load: '250 kg', material: 'Acciaio C45 + Alluminio' },
+    specs: { height: '15 cm', width: '40 cm', weight: '2.6 kg', load: '250 kg', material: 'Acciaio C45 + Alluminio' },
     tag: 'BEST SELLER',
   },
   {
     id: 3,
     name: 'Parallette L',
     slug: 'parallette-l',
-    description: 'La versione professionale, per chi non scende a compromessi. Altezza 50 cm, larghezza 58 cm. La maggiore altezza permette esercizi con piena escursione del movimento: dip profondi, bulgarian ring push-up e transizioni muscle-up. Costruzione full-steel, bulloneria M10 inclusa.',
+    description: 'Versione professionale per utilizzo intenso. Altezza 15 cm, larghezza 50 cm. Adatta a dip profondi, transizioni e movimenti esplosivi. Costruzione full-steel con bulloneria inclusa.',
     price: 199.99,
     images: ['/large.png'],
     category: { id: 1, name: 'Parallette', slug: 'parallette' },
     stock: 8,
     featured: true,
     createdAt: '',
-    specs: { height: '50 cm', width: '58 cm', weight: '4.2 kg', load: '300 kg', material: 'Full Steel C45' },
+    specs: { height: '15 cm', width: '50 cm', weight: '4.2 kg', load: '300 kg', material: 'Full Steel C45' },
     tag: 'PRO',
   },
 ]
@@ -53,6 +54,7 @@ const PRODUCTS = MOCK_PRODUCTS
 export default function ShopPage() {
   const { addItem } = useCartStore()
   const [selected, setSelected] = useState<Product | null>(null)
+  const { t } = useTranslation()
 
   return (
     <div className="min-h-screen pt-28 pb-24">
@@ -60,12 +62,12 @@ export default function ShopPage() {
       {/* ── HEADER ── */}
       <div className="max-w-7xl mx-auto px-6 mb-16">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-          <p className="text-[#e8ff00] text-sm font-bold uppercase tracking-[0.25em] mb-3">Linea Parallette</p>
+          <p className="text-[#e8ff00] text-sm font-bold uppercase tracking-[0.25em] mb-3">{t('shop.seriesTitle')}</p>
           <h1 className="text-6xl md:text-7xl font-black text-white leading-none">
-            Scegli la<br /><span className="text-[#e8ff00]">tua misura.</span>
+            {t('shop.titleLine1')}<br /><span className="text-[#e8ff00]">{t('shop.titleHighlight')}</span>
           </h1>
           <p className="text-gray-400 text-lg mt-5 max-w-lg">
-            Tre taglie, un'unica qualità. Ogni paralletta Static è costruita per durare una vita.
+            {t('shop.subtitle')}
           </p>
         </motion.div>
       </div>
@@ -136,7 +138,7 @@ export default function ShopPage() {
                       ))}
                     </div>
                     <h2 className="text-white font-black text-2xl mb-2">{product.name}</h2>
-                    <p className="text-gray-500 text-sm leading-relaxed line-clamp-2">{product.description}</p>
+                    <p className="text-gray-500 text-sm leading-relaxed line-clamp-2">{t(`products.${product.slug}.description`, { defaultValue: product.description })}</p>
                   </div>
 
                   <div className="mt-5 flex items-center justify-between">
@@ -259,7 +261,7 @@ export default function ShopPage() {
               </div>
               <div className="p-8">
                 <h2 className="text-white font-black text-3xl mb-2">{selected.name}</h2>
-                <p className="text-gray-400 leading-relaxed mb-6">{selected.description}</p>
+                <p className="text-gray-400 leading-relaxed mb-6">{t(`products.${selected.slug}.description`, { defaultValue: selected.description })}</p>
                 {selected.specs && (
                   <div className="grid grid-cols-2 gap-3 mb-8">
                     {Object.entries(selected.specs).map(([k, v]) => (
