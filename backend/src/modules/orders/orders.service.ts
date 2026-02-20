@@ -90,10 +90,99 @@ export class OrdersService {
     });
   }
 
+  async findOneByUser(userId: number, id: number) {
+    const order = await this.orderRepo.findOne({ where: { id, userId } });
+    if (!order) throw new NotFoundException('Ordine non trovato');
+    return order;
+  }
+
   async findOne(id: number) {
     const order = await this.orderRepo.findOne({ where: { id } });
     if (!order) throw new NotFoundException('Ordine non trovato');
     return order;
+  }
+
+  async createDraftOrder(
+    userId: number,
+    items: { productId: number; quantity: number; unitPrice: number }[],
+    shippingAddress?: string,
+    notes?: string,
+    checkoutData?: {
+      email?: string;
+      phone?: string;
+      shippingAddress?: string;
+      billingAddress?: string;
+      sameBillingAsShipping?: boolean;
+      paymentMethod?: 'card' | 'paypal' | 'bank';
+      useSavedPaymentMethod?: boolean;
+      selectedSavedMethodId?: string;
+      cardName?: string;
+      cardNumber?: string;
+      cardExpiry?: string;
+      paypalEmail?: string;
+      notes?: string;
+    },
+  ) {
+    if (!Array.isArray(items) || items.length === 0) {
+      throw new BadRequestException('Il carrello è vuoto');
+    }
+
+    const normalizedItems = items.map((item) => ({
+      productId: Number(item.productId),
+      quantity: Number(item.quantity),
+    }));
+
+    const hasInvalidRows = normalizedItems.some(
+      (item) => !Number.isInteger(item.productId) || item.productId <= 0 || !Number.isInteger(item.quantity) || item.quantity <= 0,
+    );
+    if (hasInvalidRows) {
+      throw new BadRequestException('Righe ordine non valide');
+    }
+
+    const productIds = Array.from(new Set(normalizedItems.map((item) => item.productId)));
+    const products = await this.productRepo.find({ where: { id: In(productIds), isActive: true } });
+    const productsById = new Map(products.map((product) => [product.id, product]));
+    const missingProductIds = productIds.filter((id) => !productsById.has(id));
+    if (missingProductIds.length > 0) {
+      throw new BadRequestException(`Prodotti non validi o non disponibili: ${missingProductIds.join(', ')}`);
+    }
+
+    const orderLines = normalizedItems.map((item) => {
+      const product = productsById.get(item.productId)!;
+      return {
+        productId: item.productId,
+        quantity: item.quantity,
+        unitPrice: Number(product.price),
+      };
+    });
+
+    const total = orderLines.reduce((sum, line) => sum + line.unitPrice * line.quantity, 0);
+
+    const createdOrderId = await this.orderRepo.manager.transaction(async (manager) => {
+      const order = manager.create(Order, {
+        userId,
+        total,
+        status: OrderStatus.PENDING,
+        shippingAddress,
+        notes,
+        checkoutData,
+      });
+      const savedOrder = await manager.save(Order, order);
+
+      const orderItems = orderLines.map((line) =>
+        manager.create(OrderItem, {
+          orderId: savedOrder.id,
+          productId: line.productId,
+          quantity: line.quantity,
+          unitPrice: line.unitPrice,
+        }),
+      );
+      await manager.save(OrderItem, orderItems);
+
+      return savedOrder.id;
+    });
+
+    return this.findOneByUser(userId, createdOrderId);
   }
 
   async updateStatus(id: number, status: OrderStatus) {

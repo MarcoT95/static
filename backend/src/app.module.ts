@@ -25,17 +25,34 @@ import { OrdersModule } from './modules/orders/orders.module';
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: (config: ConfigService) => ({
-        type: 'postgres',
-        host: config.get<string>('DB_HOST', 'localhost'),
-        port: config.get<number>('DB_PORT', 5433),
-        username: config.get<string>('DB_USER', 'postgres'),
-        password: config.get<string>('DB_PASSWORD', 'postgres'),
-        database: config.get<string>('DB_NAME', 'staticdb'),
-        entities: [User, ShippingProfile, PaymentMethod, Category, Product, Cart, CartItem, Order, OrderItem, OrderDocument, LogFile],
-        synchronize: config.get<string>('NODE_ENV') !== 'production', // ⚠️ solo in development
-        logging: config.get<string>('NODE_ENV') === 'development',
-      }),
+      useFactory: (config: ConfigService) => {
+        const databaseUrl = config.get<string>('DATABASE_URL');
+
+        // Se DATABASE_URL è presente (es. Neon), usala direttamente
+        if (databaseUrl) {
+          return {
+            type: 'postgres',
+            url: databaseUrl,
+            ssl: { rejectUnauthorized: false },
+            entities: [User, ShippingProfile, PaymentMethod, Category, Product, Cart, CartItem, Order, OrderItem, OrderDocument, LogFile],
+            synchronize: config.get<string>('NODE_ENV') !== 'production',
+            logging: config.get<string>('NODE_ENV') === 'development',
+          };
+        }
+
+        // Altrimenti usa le variabili separate (sviluppo locale)
+        return {
+          type: 'postgres',
+          host: config.get<string>('DB_HOST', 'localhost'),
+          port: config.get<number>('DB_PORT', 5433),
+          username: config.get<string>('DB_USER', 'postgres'),
+          password: config.get<string>('DB_PASSWORD', 'postgres'),
+          database: config.get<string>('DB_NAME', 'staticdb'),
+          entities: [User, ShippingProfile, PaymentMethod, Category, Product, Cart, CartItem, Order, OrderItem, OrderDocument, LogFile],
+          synchronize: config.get<string>('NODE_ENV') !== 'production',
+          logging: config.get<string>('NODE_ENV') === 'development',
+        };
+      },
     }),
 
     WinstonModule.forRootAsync({

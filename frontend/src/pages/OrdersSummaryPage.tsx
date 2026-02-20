@@ -181,7 +181,13 @@ export default function OrdersSummaryPage() {
                           <p className="text-[#e8ff00] font-black mt-1">€{Number(order.total).toFixed(2)}</p>
                         </div>
                       </div>
-                      <p className="text-gray-400 text-sm">Ordine salvato ma non ancora completato.</p>
+                      <p className="text-gray-400 text-sm mb-4">Ordine salvato ma non ancora completato.</p>
+                      <Link
+                        to={`/checkout?draftOrderId=${order.id}`}
+                        className="inline-block bg-[#e8ff00] !text-black hover:!text-black font-bold px-5 py-2.5 rounded-full"
+                      >
+                        Riprendi ordine
+                      </Link>
                     </div>
                   ))}
                 </div>

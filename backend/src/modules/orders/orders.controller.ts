@@ -14,8 +14,8 @@ export class OrdersController {
   }
 
   @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: number) {
-    return this.ordersService.findOne(id);
+  findOne(@Request() req, @Param('id', ParseIntPipe) id: number) {
+    return this.ordersService.findOneByUser(req.user.id, id);
   }
 
   @Post()
@@ -28,6 +28,33 @@ export class OrdersController {
     },
   ) {
     return this.ordersService.createOrder(req.user.id, body.items, body.shippingAddress, body.notes);
+  }
+
+  @Post('draft')
+  createDraftOrder(
+    @Request() req,
+    @Body() body: {
+      items: { productId: number; quantity: number; unitPrice: number }[];
+      shippingAddress?: string;
+      notes?: string;
+      checkoutData?: {
+        email?: string;
+        phone?: string;
+        shippingAddress?: string;
+        billingAddress?: string;
+        sameBillingAsShipping?: boolean;
+        paymentMethod?: 'card' | 'paypal' | 'bank';
+        useSavedPaymentMethod?: boolean;
+        selectedSavedMethodId?: string;
+        cardName?: string;
+        cardNumber?: string;
+        cardExpiry?: string;
+        paypalEmail?: string;
+        notes?: string;
+      };
+    },
+  ) {
+    return this.ordersService.createDraftOrder(req.user.id, body.items, body.shippingAddress, body.notes, body.checkoutData);
   }
 
   @Put(':id/status')

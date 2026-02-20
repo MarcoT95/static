@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { jsPDF } from 'jspdf'
 import api from '../lib/axios'
 import { useCartStore } from '../store/cartStore'
@@ -45,8 +45,9 @@ export default function CheckoutPage() {
     reason: 'Ordine STATIC - Nome Cognome',
   }
 
+  const location = useLocation()
   const navigate = useNavigate()
-  const { items, total, clearCart } = useCartStore()
+  const { items, total, clearCart, syncFromBackend } = useCartStore()
   const { isAuthenticated, user, updateUser } = useAuthStore()
   const [email, setEmail] = useState(user?.email || '')
   const [phone, setPhone] = useState(user?.phone || '')
@@ -66,6 +67,7 @@ export default function CheckoutPage() {
   const [paypalEmail, setPaypalEmail] = useState('')
   const [notes, setNotes] = useState('')
   const [loading, setLoading] = useState(false)
+  const [savingDraft, setSavingDraft] = useState(false)
   const [successOrderId, setSuccessOrderId] = useState<number | null>(null)
   const [isReviewStep, setIsReviewStep] = useState(false)
   const [invoicePdfUrl, setInvoicePdfUrl] = useState<string | null>(null)
@@ -82,6 +84,7 @@ export default function CheckoutPage() {
   const selectedSummarySpecs = selectedSummaryItem
     ? (selectedSummaryItem.product.specs ?? CHECKOUT_SPECS_FALLBACK[selectedSummaryItem.product.slug])
     : undefined
+  const draftOrderId = Number(new URLSearchParams(location.search).get('draftOrderId') ?? 0)
 
   const formatCardNumber = (value: string) => {
     const digits = value.replace(/\D/g, '').slice(0, 16)
@@ -283,6 +286,47 @@ export default function CheckoutPage() {
 
     void syncCheckoutData()
   }, [isAuthenticated, updateUser])
+
+  useEffect(() => {
+    if (!isAuthenticated()) return
+    if (!draftOrderId) return
+
+    const restoreDraft = async () => {
+      try {
+        const res = await api.get(`/orders/${draftOrderId}`)
+        const draft = res.data
+        if (draft?.status !== 'pending') return
+
+        const data = draft.checkoutData ?? {}
+        setEmail(data.email ?? '')
+        setPhone(data.phone ?? '')
+        setShippingAddress(data.shippingAddress ?? '')
+        setSameBillingAsShipping(data.sameBillingAsShipping ?? true)
+        setBillingAddress(data.billingAddress ?? '')
+        setPaymentMethod(data.paymentMethod ?? 'card')
+        setUseSavedPaymentMethod(!!data.useSavedPaymentMethod)
+        setSelectedSavedMethodId(data.selectedSavedMethodId ?? '')
+        setCardName(data.cardName ?? '')
+        setCardNumber(data.cardNumber ?? '')
+        setCardExpiry(data.cardExpiry ?? '')
+        setPaypalEmail(data.paypalEmail ?? '')
+        setNotes(data.notes ?? '')
+
+        await clearCart()
+        const draftItems = Array.isArray(draft.items) ? draft.items : []
+        await Promise.all(
+          draftItems.map((item: { productId: number; quantity: number }) =>
+            api.post('/cart/items', { productId: item.productId, quantity: item.quantity }),
+          ),
+        )
+        await syncFromBackend()
+      } catch {
+        setError('Impossibile riprendere questo ordine in corso')
+      }
+    }
+
+    void restoreDraft()
+  }, [clearCart, draftOrderId, isAuthenticated, syncFromBackend])
 
   useEffect(() => {
     return () => {
@@ -678,6 +722,55 @@ export default function CheckoutPage() {
     }
   }
 
+  const saveAsPendingOrder = async () => {
+    if (!isAuthenticated()) {
+      navigate('/login')
+      return
+    }
+
+    if (items.length === 0) {
+      setError('Il carrello è vuoto')
+      return
+    }
+
+    const { finalBillingAddress } = getCheckoutContext()
+
+    setSavingDraft(true)
+    setError(null)
+    try {
+      await api.post('/orders/draft', {
+        items: items.map((item) => ({
+          productId: item.product.id,
+          quantity: item.quantity,
+          unitPrice: item.product.price,
+        })),
+        shippingAddress,
+        notes: notes.trim(),
+        checkoutData: {
+          email,
+          phone,
+          shippingAddress,
+          billingAddress: finalBillingAddress,
+          sameBillingAsShipping,
+          paymentMethod,
+          useSavedPaymentMethod,
+          selectedSavedMethodId,
+          cardName,
+          cardNumber,
+          cardExpiry,
+          paypalEmail,
+          notes,
+        },
+      })
+
+      navigate('/orders-summary')
+    } catch {
+      setError('Errore nel salvataggio ordine in corso')
+    } finally {
+      setSavingDraft(false)
+    }
+  }
+
   const { finalBillingAddress, methodForOrder, methodLabel } = getCheckoutContext()
 
   return (
@@ -1068,6 +1161,17 @@ export default function CheckoutPage() {
               >
                 {loading ? 'Invio ordine...' : isReviewStep ? 'Procedi al pagamento' : 'Vai al riepilogo ordine'}
               </motion.button>
+
+              {!isReviewStep && (
+                <button
+                  type="button"
+                  onClick={saveAsPendingOrder}
+                  disabled={savingDraft || loading || hasOutOfStockItems}
+                  className="w-full mt-3 border border-white/20 text-white font-bold py-3 rounded-xl disabled:opacity-60 cursor-pointer hover:bg-white/10"
+                >
+                  {savingDraft ? 'Salvataggio in corso...' : 'Acquista in seguito'}
+                </button>
+              )}
             </div>
 
             <div className="bg-[#111] border border-white/10 rounded-2xl p-6 h-fit">

@@ -41,6 +41,23 @@ export class Order {
   @Column({ nullable: true })
   notes: string;
 
+  @Column({ type: 'simple-json', nullable: true })
+  checkoutData: {
+    email?: string;
+    phone?: string;
+    shippingAddress?: string;
+    billingAddress?: string;
+    sameBillingAsShipping?: boolean;
+    paymentMethod?: 'card' | 'paypal' | 'bank';
+    useSavedPaymentMethod?: boolean;
+    selectedSavedMethodId?: string;
+    cardName?: string;
+    cardNumber?: string;
+    cardExpiry?: string;
+    paypalEmail?: string;
+    notes?: string;
+  };
+
   @CreateDateColumn()
   createdAt: Date;
 
