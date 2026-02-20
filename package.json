@@ -1,0 +1,13 @@
+{
+  "name": "static-workspace",
+  "version": "1.0.0",
+  "description": "Monorepo con Frontend React (Vite) e Backend NestJS",
+  "private": true,
+  "scripts": {
+    "start:frontend": "npm run dev --prefix frontend",
+    "start:backend": "npm run start:dev --prefix backend",
+    "install:all": "npm install --prefix frontend && npm install --prefix backend",
+    "build:frontend": "npm run build --prefix frontend",
+    "build:backend": "npm run build --prefix backend"
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "nav": {
+    "home": "Home",
+    "shop": "Shop",
+    "about": "Chi siamo",
+    "cart": "Carrello",
+    "login": "Accedi",
+    "register": "Registrati",
+    "logout": "Esci",
+    "profile": "Profilo"
+  },
+  "hero": {
+    "title": "Allenati.",
+     "title2": "Supera i tuoi limiti",
+    "subtitle": "Attrezzatura premium per il calisthenics. Costruita per chi non si ferma mai.",
+    "cta": "Scopri i prodotti",
+    "cta2": "Chi siamo"
+  },
+  "home": {
+    "featured": "Prodotti in evidenza",
+    "newArrivals": "Nuovi arrivi",
+    "categories": "Categorie",
+    "viewAll": "Vedi tutti"
+  },
+  "product": {
+    "addToCart": "Aggiungi al carrello",
+    "outOfStock": "Esaurito",
+    "price": "Prezzo",
+    "description": "Descrizione",
+    "reviews": "Recensioni",
+    "related": "Prodotti correlati"
+  },
+  "cart": {
+    "title": "Il tuo carrello",
+    "empty": "Il carrello è vuoto",
+    "total": "Totale",
+    "checkout": "Procedi al pagamento",
+    "continueShopping": "Continua lo shopping",
+    "remove": "Rimuovi",
+    "quantity": "Quantità"
+  },
+  "auth": {
+    "login": "Accedi",
+    "register": "Crea account",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Conferma password",
+    "firstName": "Nome",
+    "lastName": "Cognome",
+    "forgotPassword": "Password dimenticata?",
+    "noAccount": "Non hai un account?",
+    "hasAccount": "Hai già un account?",
+    "loginSuccess": "Accesso effettuato!",
+    "registerSuccess": "Registrazione completata!"
+  },
+  "footer": {
+    "rights": "Tutti i diritti riservati",
+    "privacy": "Privacy Policy",
+    "terms": "Termini di servizio",
+    "contact": "Contatti"
+  }
+}
